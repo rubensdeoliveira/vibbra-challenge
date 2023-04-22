@@ -12,3 +12,8 @@ export namespace ListCompaniesUseCaseContract {
   export type Input = ListPaginatedDTO
   export type Output = ListEntitiesModel<Company>
 }
+
+export const ListCompaniesUseCaseContractTypes = {
+  ListCompaniesUseCase: Symbol.for('ListCompaniesUseCaseContract'),
+  CompaniesRepository: Symbol.for('CompaniesRepositoryContract'),
+}

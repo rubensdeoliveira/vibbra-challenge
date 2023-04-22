@@ -5,8 +5,6 @@ import {
 } from '@/shared/schemas/common'
 import { type Company } from '@prisma/client'
 
-export const CompaniesRepositoryContract = 'CompaniesRepositoryContract'
-
 export interface CompaniesRepositoryContract {
   create: (
     data: CreateCompanyRepositoryContract.Input,

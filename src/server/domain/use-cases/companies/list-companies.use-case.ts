@@ -1,14 +1,15 @@
-import { inject, injectable } from 'tsyringe'
+import { injectable, inject } from 'inversify'
 
 import {
   type ListCompaniesUseCaseContract,
-  CompaniesRepositoryContract,
+  type CompaniesRepositoryContract,
+  ListCompaniesUseCaseContractTypes,
 } from '@/server/domain/contracts'
 
 @injectable()
 export class ListCompaniesUseCase implements ListCompaniesUseCaseContract {
   constructor(
-    @inject(CompaniesRepositoryContract)
+    @inject(ListCompaniesUseCaseContractTypes.CompaniesRepository)
     private readonly companiesRepository: CompaniesRepositoryContract,
   ) {}
 
@@ -16,7 +17,6 @@ export class ListCompaniesUseCase implements ListCompaniesUseCaseContract {
     data: ListCompaniesUseCaseContract.Input,
   ): Promise<ListCompaniesUseCaseContract.Output> {
     const companies = await this.companiesRepository.list(data)
-    console.log(companies)
     const companiesCount = await this.companiesRepository.count(data)
     const rowsPerPage = 50
     return {

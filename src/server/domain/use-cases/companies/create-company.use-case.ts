@@ -1,14 +1,15 @@
-import { inject, injectable } from 'tsyringe'
+import { injectable, inject } from 'inversify'
 
 import {
   type CreateCompanyUseCaseContract,
-  CompaniesRepositoryContract,
+  type CompaniesRepositoryContract,
+  CreateCompanyUseCaseContractTypes,
 } from '@/server/domain/contracts'
 
 @injectable()
 export class CreateCompanyUseCase implements CreateCompanyUseCaseContract {
   constructor(
-    @inject(CompaniesRepositoryContract)
+    @inject(CreateCompanyUseCaseContractTypes.CompaniesRepository)
     private readonly companiesRepository: CompaniesRepositoryContract,
   ) {}
 
