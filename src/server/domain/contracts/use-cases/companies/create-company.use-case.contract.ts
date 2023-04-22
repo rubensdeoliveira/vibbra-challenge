@@ -8,6 +8,8 @@ export interface CreateCompanyUseCaseContract {
 }
 
 export namespace CreateCompanyUseCaseContract {
-  export type Input = CreateCompanyDTO
+  export type Input = CreateCompanyDTO & {
+    userId: string
+  }
   export type Output = Company
 }

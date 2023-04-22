@@ -20,7 +20,7 @@ export interface CompaniesRepositoryContract {
 }
 
 export namespace CreateCompanyRepositoryContract {
-  export type Input = CreateCompanyDTO
+  export type Input = CreateCompanyDTO & { userId: string }
   export type Output = Company
 }
 
