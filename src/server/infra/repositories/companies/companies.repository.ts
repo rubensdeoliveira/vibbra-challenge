@@ -16,33 +16,33 @@ export class CompaniesRepository implements CompaniesRepositoryContract {
     return company
   }
 
-  async list(
-    data: ListCompaniesRepositoryContract.Input,
-  ): Promise<ListCompaniesRepositoryContract.Output> {
-    const rowsPerPage = 50
+  getWhereCondition(search: string): Object {
+    return {
+      name: {
+        contains: search,
+        mode: 'insensitive',
+      },
+    }
+  }
+
+  async list({
+    page,
+    rowsPerPage,
+    search,
+  }: ListCompaniesRepositoryContract.Input): Promise<ListCompaniesRepositoryContract.Output> {
     const companies = await prisma.company.findMany({
       take: rowsPerPage,
-      skip: (data.page - 1) * rowsPerPage,
-      where: {
-        name: {
-          contains: data.search,
-          mode: 'insensitive',
-        },
-      },
+      skip: (page - 1) * rowsPerPage,
+      where: this.getWhereCondition(search),
     })
     return companies
   }
 
-  async count(
-    data: CountCompaniesRepositoryContract.Input,
-  ): Promise<CountCompaniesRepositoryContract.Output> {
+  async count({
+    search,
+  }: CountCompaniesRepositoryContract.Input): Promise<CountCompaniesRepositoryContract.Output> {
     const companiesCount = await prisma.company.count({
-      where: {
-        name: {
-          contains: data.search,
-          mode: 'insensitive',
-        },
-      },
+      where: this.getWhereCondition(search),
     })
     return companiesCount
   }

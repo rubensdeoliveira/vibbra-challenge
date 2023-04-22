@@ -13,17 +13,23 @@ export class ListCompaniesUseCase implements ListCompaniesUseCaseContract {
     private readonly companiesRepository: CompaniesRepositoryContract,
   ) {}
 
-  public async list(
-    data: ListCompaniesUseCaseContract.Input,
-  ): Promise<ListCompaniesUseCaseContract.Output> {
-    const companies = await this.companiesRepository.list(data)
-    const companiesCount = await this.companiesRepository.count(data)
-    const rowsPerPage = 50
+  public async list({
+    page,
+    rowsPerPage = 10,
+    search = '',
+  }: ListCompaniesUseCaseContract.Input): Promise<ListCompaniesUseCaseContract.Output> {
+    const companies = await this.companiesRepository.list({
+      page,
+      rowsPerPage,
+      search,
+    })
+    const companiesCount = await this.companiesRepository.count({ search })
     return {
       data: companies,
-      last_page: Math.ceil(companiesCount / rowsPerPage),
-      page: data.page,
-      record_count: companiesCount,
+      lastPage: Math.ceil(companiesCount / rowsPerPage),
+      page,
+      recordsCount: companiesCount,
+      rowsPerPage,
     }
   }
 }

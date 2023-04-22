@@ -9,10 +9,7 @@ export const getServerSideProps = withSSRGuest(async () => {
 
 export default function Login() {
   return (
-    <button
-      className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-      onClick={() => void signIn('google')}
-    >
+    <button className="" onClick={() => void signIn('google')}>
       Login com google
     </button>
   )

@@ -16,7 +16,6 @@ export default function Companies() {
   const [page, setPage] = useAtom(pageAtom)
 
   const { data, isError, isLoading } = api.company.list.useQuery({
-    search: '',
     page,
   })
 

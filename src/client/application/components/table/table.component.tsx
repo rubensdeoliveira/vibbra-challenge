@@ -6,13 +6,7 @@ import {
   TableNavigation,
   TableSearch,
 } from './components'
-
-export type ListEntitiesProps<EntityType> = {
-  data: EntityType[]
-  page: number
-  last_page: number
-  record_count: number
-}
+import { ListEntitiesModel } from '@/server/domain/models/common'
 
 export type TableHeader = {
   columnName: string
@@ -31,7 +25,7 @@ export type TableNavigation = {
 
 export type TableProps = TableNavigation & {
   header: TableHeader[]
-  data: ListEntitiesProps<any> | undefined
+  data: ListEntitiesModel<any> | undefined
   actionButton: TableActionButton
 }
 
@@ -47,16 +41,18 @@ export function Table({
   }
 
   return (
-    <div className="w-full overflow-x-auto">
-      <div className="flex justify-between">
-        <TableSearch />
-        <TableAction actionButton={actionButton} />
+    <>
+      <div className="w-full overflow-x-auto">
+        <div className="flex justify-between">
+          <TableSearch />
+          <TableAction actionButton={actionButton} />
+        </div>
+        <table className="table w-full rounded-[14px] bg-gray-800">
+          <TableHeader header={header} />
+          <TableBody data={data} header={header} />
+        </table>
       </div>
-      <table className="table w-full">
-        <TableHeader header={header} />
-        <TableBody data={data} header={header} />
-      </table>
       <TableNavigation data={data} page={page} setPage={setPage} />
-    </div>
+    </>
   )
 }

@@ -1,8 +1,10 @@
-import { ListEntitiesProps, TableHeader } from '../../table.component'
+import { ListEntitiesModel } from '@/server/domain/models/common'
+import { TableHeader } from '../../table.component'
+import { Td, Th } from '../table-header/components'
 
 type TableBodyProps = {
   header: TableHeader[]
-  data: ListEntitiesProps<any>
+  data: ListEntitiesModel<any>
 }
 
 export function TableBody({ data, header }: TableBodyProps) {
@@ -10,19 +12,19 @@ export function TableBody({ data, header }: TableBodyProps) {
     <tbody>
       {data.data.map((dataItem: any, index: number) => (
         <tr key={index}>
-          <th>
+          <Th type={'body'} className="pl-8 pr-0">
             <label>
               <input type="checkbox" className="checkbox" />
             </label>
-          </th>
+          </Th>
           {header.map(headerItem => (
-            <td key={headerItem.columnName}>
+            <Td key={headerItem.columnName}>
               {dataItem[headerItem.columnName]}
-            </td>
+            </Td>
           ))}
-          <th>
+          <Th type={'body'}>
             <button className="btn-ghost btn-xs btn">details</button>
-          </th>
+          </Th>
         </tr>
       ))}
     </tbody>

@@ -1,9 +1,21 @@
-import { type Config } from "tailwindcss";
+import { type Config } from 'tailwindcss'
 
 export default {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    colors: {
+      gray: {
+        400: '#4F6071',
+        600: '#323940',
+        700: '#2D3640',
+        800: '#272E35',
+        900: '#24292E',
+      },
+      white: '#ffffff',
+    },
+    fontFamily: {
+      poppins: 'Poppins',
+    },
   },
-  plugins: [require("daisyui")],
-} satisfies Config;
+  plugins: [require('daisyui')],
+} satisfies Config

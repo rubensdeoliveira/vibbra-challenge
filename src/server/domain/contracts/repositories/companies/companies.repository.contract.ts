@@ -4,6 +4,7 @@ import {
   type ListPaginatedDTO,
 } from '@/shared/schemas/common'
 import { type Company } from '@prisma/client'
+import { WithRequired } from '@tanstack/react-query'
 
 export interface CompaniesRepositoryContract {
   create: (
@@ -23,12 +24,12 @@ export namespace CreateCompanyRepositoryContract {
 }
 
 export namespace ListCompaniesRepositoryContract {
-  export type Input = ListPaginatedDTO
+  export type Input = WithRequired<ListPaginatedDTO, 'search' | 'rowsPerPage'>
   export type Output = Company[]
 }
 
 export namespace CountCompaniesRepositoryContract {
-  export type Input = ListCountDTO
+  export type Input = WithRequired<ListCountDTO, 'search'>
   export type Output = number
 }
 

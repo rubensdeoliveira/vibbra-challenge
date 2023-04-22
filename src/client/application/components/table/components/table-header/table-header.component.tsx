@@ -1,4 +1,5 @@
 import { TableHeader } from '../../table.component'
+import { Th } from './components'
 
 type TableHeaderProps = {
   header: TableHeader[]
@@ -6,17 +7,17 @@ type TableHeaderProps = {
 
 export function TableHeader({ header }: TableHeaderProps) {
   return (
-    <thead>
+    <thead className="rounded-[14px]">
       <tr>
-        <th>
+        <Th className="rounded-l-[14px] pl-8">
           <label>
             <input type="checkbox" className="checkbox" />
           </label>
-        </th>
+        </Th>
         {header.map(headerItem => (
-          <th key={headerItem.columnName}>{headerItem.columnLabel}</th>
+          <Th key={headerItem.columnName}>{headerItem.columnLabel}</Th>
         ))}
-        <th>Action</th>
+        <Th className="rounded-r-[14px]">{''}</Th>
       </tr>
     </thead>
   )
