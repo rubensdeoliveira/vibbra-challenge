@@ -1,19 +1,19 @@
 import { CreateCompanySchema, ListPaginatedSchema } from '@/shared/schemas'
 import { createTRPCRouter, protectedProcedure } from '@/server/infra/trpc'
-import { container } from '@/server/infra/container'
 import {
   CreateCompanyUseCaseContract,
-  CreateCompanyUseCaseContractTypes,
+  CreateCompanyUseCaseContractType,
   ListCompaniesUseCaseContract,
-  ListCompaniesUseCaseContractTypes,
+  ListCompaniesUseCaseContractType,
 } from '@/server/domain/contracts'
+import { container } from '@/server/infra/container'
 
 export const companiesRouter = createTRPCRouter({
   list: protectedProcedure
     .input(ListPaginatedSchema)
     .query(async ({ input }) => {
       const listCompaniesUseCase = container.get<ListCompaniesUseCaseContract>(
-        ListCompaniesUseCaseContractTypes.ListCompaniesUseCase,
+        ListCompaniesUseCaseContractType,
       )
       const companies = await listCompaniesUseCase.list(input)
       return companies
@@ -22,7 +22,7 @@ export const companiesRouter = createTRPCRouter({
     .input(CreateCompanySchema)
     .mutation(async ({ input, ctx }) => {
       const createCompanyUseCase = container.get<CreateCompanyUseCaseContract>(
-        CreateCompanyUseCaseContractTypes.CreateCompanyUseCase,
+        CreateCompanyUseCaseContractType,
       )
       const createdCompany = await createCompanyUseCase.create({
         ...input,

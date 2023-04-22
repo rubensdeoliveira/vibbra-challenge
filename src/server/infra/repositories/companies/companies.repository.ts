@@ -5,7 +5,9 @@ import {
   type CreateCompanyRepositoryContract,
   type ListCompaniesRepositoryContract,
 } from '@/server/domain/contracts'
+import { injectable } from 'inversify'
 
+@injectable()
 export class CompaniesRepository implements CompaniesRepositoryContract {
   async create(
     data: CreateCompanyRepositoryContract.Input,

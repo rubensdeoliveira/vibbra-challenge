@@ -13,7 +13,6 @@ export namespace ListCompaniesUseCaseContract {
   export type Output = ListEntitiesModel<Company>
 }
 
-export const ListCompaniesUseCaseContractTypes = {
-  ListCompaniesUseCase: Symbol.for('ListCompaniesUseCaseContract'),
-  CompaniesRepository: Symbol.for('CompaniesRepositoryContract'),
-}
+export const ListCompaniesUseCaseContractType = Symbol(
+  'ListCompaniesUseCaseContract',
+)

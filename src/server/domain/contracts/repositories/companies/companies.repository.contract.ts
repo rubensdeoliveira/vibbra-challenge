@@ -31,3 +31,7 @@ export namespace CountCompaniesRepositoryContract {
   export type Input = ListCountDTO
   export type Output = number
 }
+
+export const CompaniesRepositoryContractType = Symbol(
+  'CompaniesRepositoryContract',
+)

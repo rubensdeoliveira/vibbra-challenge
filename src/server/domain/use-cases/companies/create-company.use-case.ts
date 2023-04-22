@@ -3,13 +3,13 @@ import { injectable, inject } from 'inversify'
 import {
   type CreateCompanyUseCaseContract,
   type CompaniesRepositoryContract,
-  CreateCompanyUseCaseContractTypes,
+  CreateCompanyUseCaseContractType,
 } from '@/server/domain/contracts'
 
 @injectable()
 export class CreateCompanyUseCase implements CreateCompanyUseCaseContract {
   constructor(
-    @inject(CreateCompanyUseCaseContractTypes.CompaniesRepository)
+    @inject(CreateCompanyUseCaseContractType)
     private readonly companiesRepository: CompaniesRepositoryContract,
   ) {}
 

@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-import '@/server/infra/container'
 
 import { createNextApiHandler } from '@trpc/server/adapters/next'
 

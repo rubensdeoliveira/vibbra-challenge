@@ -14,7 +14,6 @@ export namespace CreateCompanyUseCaseContract {
   export type Output = Company
 }
 
-export const CreateCompanyUseCaseContractTypes = {
-  CreateCompanyUseCase: Symbol.for('CreateCompanyUseCaseContract'),
-  CompaniesRepository: Symbol.for('CompaniesRepositoryContract'),
-}
+export const CreateCompanyUseCaseContractType = Symbol(
+  'CreateCompanyUseCaseContract',
+)
