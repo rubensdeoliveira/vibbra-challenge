@@ -1,6 +1,13 @@
 import { ListEntitiesModel } from '@/server/domain/models/common'
 import { generatePagesArray } from '../../helpers'
 import { TableNavigation } from '../../table.component'
+import { PaginationButton } from './components'
+import {
+  FaCaretLeft,
+  FaCaretRight,
+  FaChevronLeft,
+  FaChevronRight,
+} from 'react-icons/fa'
 
 export type TableNavigationProps = TableNavigation & {
   data: ListEntitiesModel<any>
@@ -19,60 +26,83 @@ export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
           )
         : []
     return (
-      <div className="btn-group self-center">
+      <>
+        <PaginationButton
+          onClick={() => page > 1 && setPage(page - 1)}
+          className={`${
+            page === 1 ? 'cursor-not-allowed text-gray-300/30' : 'text-gray-300'
+          }`}
+        >
+          <FaChevronLeft size={12} />
+        </PaginationButton>
+
         {page > 1 + siblingsCount && (
           <>
-            <button onClick={() => setPage(1)} className="">
-              1
-            </button>
-            {page > 2 + siblingsCount && <button className="">...</button>}
+            <PaginationButton onClick={() => setPage(1)}>1</PaginationButton>
+            {page > 2 + siblingsCount && (
+              <PaginationButton>...</PaginationButton>
+            )}
           </>
         )}
 
         {previousPages.map(previousPage => (
-          <button
+          <PaginationButton
             key={previousPage}
-            className=""
             onClick={() => setPage(previousPage)}
           >
             {previousPage}
-          </button>
+          </PaginationButton>
         ))}
 
-        <button key={page} className="" onClick={() => setPage(1)}>
-          {page}
-        </button>
+        <PaginationButton isActive>{page}</PaginationButton>
 
         {nextPages.map(nextPage => (
-          <button key={nextPage} className="" onClick={() => setPage(nextPage)}>
+          <PaginationButton key={nextPage} onClick={() => setPage(nextPage)}>
             {nextPage}
-          </button>
+          </PaginationButton>
         ))}
 
         {data && page + siblingsCount < data.lastPage && (
           <>
             {page + 1 + siblingsCount < data.lastPage && (
-              <button className="">...</button>
+              <PaginationButton>...</PaginationButton>
             )}
-            <button className="" onClick={() => setPage(data.lastPage)}>
+            <PaginationButton onClick={() => setPage(data.lastPage)}>
               {data.lastPage}
-            </button>
+            </PaginationButton>
           </>
         )}
-      </div>
+
+        <PaginationButton
+          onClick={() => page < data.lastPage && setPage(page + 1)}
+          className={`${
+            page === data.lastPage
+              ? 'cursor-not-allowed text-gray-300/30'
+              : 'text-gray-300'
+          }`}
+        >
+          <FaChevronRight size={12} />
+        </PaginationButton>
+      </>
     )
   }
 
+  const pagesCountText = `Exibindo ${(data.page - 1) * data.rowsPerPage + 1} -
+  ${
+    data.page * data.rowsPerPage < data.recordsCount
+      ? data.page * data.rowsPerPage
+      : data.recordsCount
+  } de ${data.recordsCount}`
+
   return (
     <nav
-      className="flex w-full items-center justify-between"
+      className="mt-[1.875rem] flex w-full items-center justify-between"
       aria-label="Table navigation"
     >
-      <span>
-        Exibindo {(data.page - 1) * data.rowsPerPage + 1}-
-        {data.page * data.rowsPerPage} de {data.recordsCount}
-      </span>
-      <ul className="flex items-center">{renderTablePagination()}</ul>
+      <span className="font-medium">{pagesCountText}</span>
+      <ul className="flex items-center rounded-[11px] bg-gray-950">
+        {renderTablePagination()}
+      </ul>
     </nav>
   )
 }

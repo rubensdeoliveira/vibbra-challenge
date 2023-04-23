@@ -42,11 +42,8 @@ export function Table({
 
   return (
     <>
-      <div className="w-full overflow-x-auto">
-        <div className="flex justify-between">
-          <TableSearch />
-          <TableAction actionButton={actionButton} />
-        </div>
+      <div className="overflow-x-auto">
+        <TableAction actionButton={actionButton} />
         <table className="table w-full rounded-[14px] bg-gray-800">
           <TableHeader header={header} />
           <TableBody data={data} header={header} />

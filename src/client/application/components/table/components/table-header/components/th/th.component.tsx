@@ -1,24 +1,16 @@
 import { ReactNode } from 'react'
 import { VariantProps, cva } from 'class-variance-authority'
 
-export type ButtonVariantProps = VariantProps<typeof thStyles>
-type ThProps = ButtonVariantProps & {
+export type ThVariantProps = VariantProps<typeof thStyles>
+type ThProps = ThVariantProps & {
   children: ReactNode
   className?: string
 }
 
-const thStyles = cva('text-lg font-medium capitalize', {
-  variants: {
-    type: {
-      header: 'bg-gray-700 min-h-[87px]',
-      body: 'bg-gray-800 border-gray-600 min-h-[91px]',
-    },
-  },
-  defaultVariants: {
-    type: 'header',
-  },
-})
+const thStyles = cva(
+  'text-lg font-medium capitalize bg-gray-700 py-[1.875rem] leading-[1]',
+)
 
-export function Th({ children, className, type }: ThProps) {
-  return <th className={thStyles({ className, type })}>{children}</th>
+export function Th({ children, className }: ThProps) {
+  return <th className={thStyles({ className })}>{children}</th>
 }
