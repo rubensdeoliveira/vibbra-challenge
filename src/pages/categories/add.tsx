@@ -33,7 +33,6 @@ export default function AddCategory() {
   })
 
   function handleSubmitForm(data: CreateCompanyDTO) {
-    console.log(data)
     mutate(data)
   }
 

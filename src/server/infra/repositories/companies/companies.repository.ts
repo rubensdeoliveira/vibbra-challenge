@@ -23,7 +23,6 @@ export class CompaniesRepository implements CompaniesRepositoryContract {
     id,
     ...upsertData
   }: UpsertCompanyRepositoryContract.Input): Promise<UpsertCompanyRepositoryContract.Output> {
-    console.log('>>>>>>>>', id, upsertData)
     const company = await prisma.company.upsert({
       where: {
         id: id ?? '',

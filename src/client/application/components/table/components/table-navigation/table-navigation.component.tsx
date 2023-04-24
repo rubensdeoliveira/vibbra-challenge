@@ -1,14 +1,17 @@
 import { ListEntitiesModel } from '@/server/domain/models/common'
 import { generatePagesArray } from '../../helpers'
-import { TableNavigation } from '../../table.component'
 import { PaginationButton } from './components'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { useAtom } from 'jotai'
+import { pageAtom } from '@/client/application/atoms'
 
-export type TableNavigationProps = TableNavigation & {
+export type TableNavigationProps = {
   data: ListEntitiesModel<any>
 }
 
-export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
+export function TableNavigation({ data }: TableNavigationProps) {
+  const [page, setPage] = useAtom(pageAtom)
+
   function renderTablePagination() {
     const siblingsCount = 1
     const previousPages =
@@ -86,7 +89,9 @@ export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
     )
   }
 
-  const pagesCountText = `Exibindo ${(data.page - 1) * data.rowsPerPage + 1} -
+  const pagesCountText = `Exibindo ${
+    data.recordsCount > 0 ? (data.page - 1) * data.rowsPerPage + 1 : 0
+  } -
   ${
     data.page * data.rowsPerPage < data.recordsCount
       ? data.page * data.rowsPerPage
@@ -95,7 +100,7 @@ export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
 
   return (
     <nav
-      className="mt-[1.875rem] flex w-full w-full max-w-[1465px] items-center justify-between"
+      className="mt-[1.875rem] flex w-full max-w-[1465px] items-center justify-between"
       aria-label="Table navigation"
     >
       <span className="font-medium">{pagesCountText}</span>

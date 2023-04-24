@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
 
-import { pageAtom } from '@/client/application/atoms'
+import { pageAtom, searchAtom } from '@/client/application/atoms'
 import { Navbar, Table } from '@/client/application/components'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { api } from '@/shared/utils'
@@ -13,11 +13,13 @@ export const getServerSideProps = withSSRAuthenticated(async () => {
 })
 
 export default function Companies() {
-  const [page, setPage] = useAtom(pageAtom)
+  const [page] = useAtom(pageAtom)
+  const [search] = useAtom(searchAtom)
   const utils = api.useContext()
 
   const { data } = api.company.list.useQuery({
     page,
+    search,
   })
   const { mutate: deleteCompany } = api.company.delete.useMutation({
     onSuccess: () => {
@@ -70,8 +72,6 @@ export default function Companies() {
           },
         ]}
         data={data}
-        page={page}
-        setPage={setPage}
       />
     </Navbar>
   )

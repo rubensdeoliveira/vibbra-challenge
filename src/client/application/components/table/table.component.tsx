@@ -25,18 +25,13 @@ export type TableActions = {
   }
 }
 
-export type TableNavigation = {
-  page: number
-  setPage: (update: SetStateAction<number>) => void
-}
-
-export type TableProps = TableNavigation & {
+export type TableProps = {
   header: TableHeader[]
   data: ListEntitiesModel<any> | undefined
   actions?: TableActions
 }
 
-export function Table({ header, page, data, setPage, actions }: TableProps) {
+export function Table({ header, data, actions }: TableProps) {
   if (!data) {
     return null
   }
@@ -50,7 +45,7 @@ export function Table({ header, page, data, setPage, actions }: TableProps) {
           <TableBody data={data} header={header} actions={actions} />
         </table>
       </div>
-      <TableNavigation data={data} page={page} setPage={setPage} />
+      <TableNavigation data={data} />
     </>
   )
 }
