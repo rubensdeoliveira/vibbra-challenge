@@ -16,7 +16,7 @@ export class CreateCompanyUseCase implements CreateCompanyUseCaseContract {
   public async create(
     data: CreateCompanyUseCaseContract.Input,
   ): Promise<CreateCompanyUseCaseContract.Output> {
-    const createdCompany = await this.companiesRepository.create(data)
+    const createdCompany = await this.companiesRepository.upsert(data)
     return createdCompany
   }
 }

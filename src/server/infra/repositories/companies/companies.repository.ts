@@ -1,28 +1,41 @@
+import { injectable } from 'inversify'
+
 import { prisma } from '@/server/infra/database'
 import {
+  GetCompanyByIdRepositoryContract,
   type CompaniesRepositoryContract,
   type CountCompaniesRepositoryContract,
-  type CreateCompanyRepositoryContract,
+  type UpsertCompanyRepositoryContract,
   type ListCompaniesRepositoryContract,
+  DeleteCompanyRepositoryContract,
 } from '@/server/domain/contracts'
-import { injectable } from 'inversify'
 
 @injectable()
 export class CompaniesRepository implements CompaniesRepositoryContract {
-  async create(
-    data: CreateCompanyRepositoryContract.Input,
-  ): Promise<CreateCompanyRepositoryContract.Output> {
-    const company = await prisma.company.create({ data })
+  async getById({
+    id,
+  }: GetCompanyByIdRepositoryContract.Input): Promise<GetCompanyByIdRepositoryContract.Output> {
+    const company = await prisma.company.findUnique({ where: { id } })
     return company
   }
 
-  getWhereCondition(search: string): Object {
-    return {
-      name: {
-        contains: search,
-        mode: 'insensitive',
+  async upsert({
+    id,
+    ...upsertData
+  }: UpsertCompanyRepositoryContract.Input): Promise<UpsertCompanyRepositoryContract.Output> {
+    console.log('>>>>>>>>', id, upsertData)
+    const company = await prisma.company.upsert({
+      where: {
+        id: id ?? '',
       },
-    }
+      update: {
+        ...upsertData,
+      },
+      create: {
+        ...upsertData,
+      },
+    })
+    return company
   }
 
   async list({
@@ -45,5 +58,20 @@ export class CompaniesRepository implements CompaniesRepositoryContract {
       where: this.getWhereCondition(search),
     })
     return companiesCount
+  }
+
+  async delete({ id }: DeleteCompanyRepositoryContract.Input): Promise<void> {
+    await prisma.company.delete({
+      where: { id },
+    })
+  }
+
+  getWhereCondition(search: string): Object {
+    return {
+      name: {
+        contains: search,
+        mode: 'insensitive',
+      },
+    }
   }
 }

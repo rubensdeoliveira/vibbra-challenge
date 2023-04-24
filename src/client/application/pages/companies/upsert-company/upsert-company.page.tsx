@@ -1,31 +1,44 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-import { Button, Form, Input, Navbar } from '@/client/application/components'
-import { withSSRAuthenticated } from '@/client/application/helpers'
-import { CreateCompanyDTO, CreateCompanySchema } from '@/shared/schemas'
-import { api } from '@/shared/utils'
 import { useRouter } from 'next/router'
 
-export const getServerSideProps = withSSRAuthenticated(async () => {
-  return {
-    props: {},
-  }
-})
+import { Button, Form, Input, Navbar } from '@/client/application/components'
+import { CreateCompanyDTO, CreateCompanySchema } from '@/shared/schemas'
+import { api } from '@/shared/utils'
 
-export default function AddCategory() {
+type UpsertCompanyProps = {
+  defaultValues?: CreateCompanyDTO
+  companyId?: string
+}
+
+export function UpsertCompany({
+  defaultValues,
+  companyId,
+}: UpsertCompanyProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateCompanyDTO>({
     resolver: zodResolver(CreateCompanySchema),
+    defaultValues,
   })
-  const router = useRouter()
+  const { push } = useRouter()
+  const utils = api.useContext()
 
-  const { mutate, isLoading, isError } = api.company.create.useMutation({
+  const { mutate: addCompany } = api.company.create.useMutation({
     onSuccess: () => {
-      router.push('/categories')
+      push('/companies')
+    },
+    onError: err => {
+      console.log(err)
+    },
+  })
+
+  const { mutate: editCompany } = api.company.update.useMutation({
+    onSuccess: () => {
+      utils.company.getById.invalidate({ id: companyId })
+      push('/companies')
     },
     onError: err => {
       console.log(err)
@@ -33,8 +46,7 @@ export default function AddCategory() {
   })
 
   function handleSubmitForm(data: CreateCompanyDTO) {
-    console.log(data)
-    mutate(data)
+    companyId ? editCompany({ ...data, id: companyId }) : addCompany(data)
   }
 
   return (
@@ -52,8 +64,14 @@ export default function AddCategory() {
           register={register}
           errors={errors}
         />
-        <Input label="CNPJ" name="cnpj" register={register} errors={errors} />
-        <Button label="Cadastrar" />
+        <Input
+          label="CNPJ"
+          name="cnpj"
+          register={register}
+          errors={errors}
+          mask="99.999.999/9999-99"
+        />
+        <Button label={companyId ? 'Editar' : 'Cadastrar'} className="mt-6" />
       </Form>
     </Navbar>
   )

@@ -1,11 +1,12 @@
-import { TableHeader } from '../../table.component'
+import { TableActions, TableHeader } from '../../table.component'
 import { Th } from './components'
 
 type TableHeaderProps = {
   header: TableHeader[]
+  actions?: TableActions
 }
 
-export function TableHeader({ header }: TableHeaderProps) {
+export function TableHeader({ header, actions }: TableHeaderProps) {
   return (
     <thead className="rounded-[14px]">
       <tr>
@@ -19,7 +20,7 @@ export function TableHeader({ header }: TableHeaderProps) {
             {headerItem.columnLabel}
           </Th>
         ))}
-        <Th className="w-[80px] rounded-r-[14px]">{''}</Th>
+        {actions && <Th className="w-[80px] rounded-r-[14px]">{''}</Th>}
       </tr>
     </thead>
   )

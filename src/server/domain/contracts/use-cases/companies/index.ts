@@ -1,2 +1,5 @@
 export * from './create-company.use-case.contract'
+export * from './delete-company.use-case.contract'
+export * from './get-company-by-id.use-case.contract'
 export * from './list-companies.use-case.contract'
+export * from './update-company.use-case.contract'

@@ -17,7 +17,7 @@ const paginationButtonStyles = cva(
     variants: {
       isActive: {
         true: 'bg-green-500 rounded-[11px]',
-        false: 'text-gray-300',
+        false: 'text-gray-300 hover:text-white transition-all',
       },
     },
     defaultVariants: {

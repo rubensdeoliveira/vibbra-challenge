@@ -8,5 +8,5 @@ export const getServerSideProps = withSSRAuthenticated(async () => {
 })
 
 export default function Dashboard() {
-  return <Navbar>teste</Navbar>
+  return <Navbar>Futuro Dashboard</Navbar>
 }

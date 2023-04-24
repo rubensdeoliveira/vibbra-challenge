@@ -6,7 +6,7 @@ export function Header() {
   const { data } = useSession()
 
   return (
-    <header className="flex justify-between">
+    <header className="m-[0_auto] flex w-full max-w-[1465px] justify-between">
       <h1>Dashboard</h1>
       <div className="flex gap-6">
         {data?.user.image ? (

@@ -1,1 +1,1 @@
-export * from './create-company.schema'
+export * from './companies.schema'

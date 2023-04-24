@@ -2,12 +2,7 @@ import { ListEntitiesModel } from '@/server/domain/models/common'
 import { generatePagesArray } from '../../helpers'
 import { TableNavigation } from '../../table.component'
 import { PaginationButton } from './components'
-import {
-  FaCaretLeft,
-  FaCaretRight,
-  FaChevronLeft,
-  FaChevronRight,
-} from 'react-icons/fa'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 export type TableNavigationProps = TableNavigation & {
   data: ListEntitiesModel<any>
@@ -33,14 +28,16 @@ export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
             page === 1 ? 'cursor-not-allowed text-gray-300/30' : 'text-gray-300'
           }`}
         >
-          <FaChevronLeft size={12} />
+          <FiChevronLeft size={12} />
         </PaginationButton>
 
         {page > 1 + siblingsCount && (
           <>
             <PaginationButton onClick={() => setPage(1)}>1</PaginationButton>
             {page > 2 + siblingsCount && (
-              <PaginationButton>...</PaginationButton>
+              <PaginationButton className="cursor-not-allowed text-gray-300/30">
+                ...
+              </PaginationButton>
             )}
           </>
         )}
@@ -65,7 +62,9 @@ export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
         {data && page + siblingsCount < data.lastPage && (
           <>
             {page + 1 + siblingsCount < data.lastPage && (
-              <PaginationButton>...</PaginationButton>
+              <PaginationButton className="cursor-not-allowed text-gray-300/30">
+                ...
+              </PaginationButton>
             )}
             <PaginationButton onClick={() => setPage(data.lastPage)}>
               {data.lastPage}
@@ -81,7 +80,7 @@ export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
               : 'text-gray-300'
           }`}
         >
-          <FaChevronRight size={12} />
+          <FiChevronRight size={12} />
         </PaginationButton>
       </>
     )
@@ -96,7 +95,7 @@ export function TableNavigation({ data, page, setPage }: TableNavigationProps) {
 
   return (
     <nav
-      className="mt-[1.875rem] flex w-full items-center justify-between"
+      className="mt-[1.875rem] flex w-full w-full max-w-[1465px] items-center justify-between"
       aria-label="Table navigation"
     >
       <span className="font-medium">{pagesCountText}</span>

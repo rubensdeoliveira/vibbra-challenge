@@ -1,16 +1,18 @@
 import { Button } from '../../../button'
-import { TableActionButton } from '../../table.component'
+import { TableActions } from '../../table.component'
 import { TableSearch } from './components'
 
 type TableActionProps = {
-  actionButton: TableActionButton
+  actions?: TableActions
 }
 
-export function TableAction({ actionButton }: TableActionProps) {
+export function TableAction({ actions }: TableActionProps) {
   return (
     <div className="mb-10 flex items-center justify-between">
       <TableSearch />
-      <Button onClick={actionButton.action} label={actionButton.label} />
+      {actions?.create && (
+        <Button onClick={actions.create.action} label={actions.create.label} />
+      )}
     </div>
   )
 }

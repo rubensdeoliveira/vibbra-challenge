@@ -8,7 +8,7 @@ type TdProps = TdVariantProps & {
 }
 
 const tdStyles = cva(
-  'text-sm text-white/80 break-words border-gray-600 bg-gray-800 whitespace-break-spaces py-6 leading-[1.5]',
+  'text-sm text-white/80 break-words border-none bg-gray-800 whitespace-break-spaces py-6 leading-[1.5]',
 )
 
 export function Td({ children, className }: TdProps) {

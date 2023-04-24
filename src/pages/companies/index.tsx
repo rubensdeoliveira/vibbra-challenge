@@ -14,21 +14,46 @@ export const getServerSideProps = withSSRAuthenticated(async () => {
 
 export default function Companies() {
   const [page, setPage] = useAtom(pageAtom)
+  const utils = api.useContext()
 
-  const { data, isError, isLoading } = api.company.list.useQuery({
+  const { data } = api.company.list.useQuery({
     page,
+  })
+  const { mutate: deleteCompany } = api.company.delete.useMutation({
+    onSuccess: () => {
+      utils.company.list.invalidate()
+    },
+    onError: err => {
+      console.log(err)
+    },
   })
 
   async function handleNavigateToAddPage() {
     await Router.push('/companies/add')
   }
 
+  async function handleNavigateToEditPage(id: string) {
+    await Router.push(`/companies/edit/${id}`)
+  }
+
+  async function handleDeleteItem(id: string) {
+    deleteCompany({ id })
+  }
+
   return (
     <Navbar>
       <Table
-        actionButton={{
-          action: handleNavigateToAddPage,
-          label: 'Adicionar empresa',
+        actions={{
+          create: {
+            action: handleNavigateToAddPage,
+            label: 'Adicionar empresa',
+          },
+          update: {
+            action: handleNavigateToEditPage,
+          },
+          delete: {
+            action: handleDeleteItem,
+          },
         }}
         header={[
           {
