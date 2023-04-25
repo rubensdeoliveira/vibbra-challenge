@@ -71,13 +71,11 @@ export class CategoriesRepository implements CategoriesRepositoryContract {
         {
           name: {
             contains: search,
-            mode: 'insensitive',
           },
         },
         {
           description: {
             contains: search,
-            mode: 'insensitive',
           },
         },
       ],

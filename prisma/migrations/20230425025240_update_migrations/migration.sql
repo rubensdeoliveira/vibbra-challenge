@@ -30,11 +30,11 @@ CREATE TABLE `Account` (
     `provider` VARCHAR(191) NOT NULL,
     `providerAccountId` VARCHAR(191) NOT NULL,
     `refresh_token` VARCHAR(191) NULL,
-    `access_token` VARCHAR(191) NULL,
+    `access_token` TEXT NULL,
     `expires_at` INTEGER NULL,
     `token_type` VARCHAR(191) NULL,
     `scope` VARCHAR(191) NULL,
-    `id_token` VARCHAR(191) NULL,
+    `id_token` TEXT NULL,
     `session_state` VARCHAR(191) NULL,
 
     INDEX `Account_userId_idx`(`userId`),
@@ -75,4 +75,3 @@ CREATE TABLE `VerificationToken` (
     UNIQUE INDEX `VerificationToken_token_key`(`token`),
     UNIQUE INDEX `VerificationToken_identifier_token_key`(`identifier`, `token`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-

@@ -71,19 +71,16 @@ export class CompaniesRepository implements CompaniesRepositoryContract {
         {
           name: {
             contains: search,
-            mode: 'insensitive',
           },
         },
         {
           corporateName: {
             contains: search,
-            mode: 'insensitive',
           },
         },
         {
           cnpj: {
             contains: search,
-            mode: 'insensitive',
           },
         },
       ],
