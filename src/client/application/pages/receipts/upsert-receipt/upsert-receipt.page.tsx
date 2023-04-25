@@ -2,7 +2,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/router'
 
-import { Button, Form, Input, Navbar } from '@/client/application/components'
+import {
+  Button,
+  Form,
+  Input,
+  InputAutoComplete,
+  Navbar,
+} from '@/client/application/components'
 import { CreateReceiptDTO, CreateReceiptSchema } from '@/shared/schemas'
 import { api } from '@/shared/utils'
 
@@ -19,12 +25,18 @@ export function UpsertReceipt({
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<CreateReceiptDTO>({
     resolver: zodResolver(CreateReceiptSchema),
     defaultValues,
   })
   const { push } = useRouter()
   const utils = api.useContext()
+
+  const { data } = api.company.list.useQuery({
+    page: 1,
+    rowsPerPage: 99999,
+  })
 
   const { mutate: addReceipt } = api.receipt.create.useMutation({
     onSuccess: () => {
@@ -46,20 +58,25 @@ export function UpsertReceipt({
   })
 
   function handleSubmitForm(data: CreateReceiptDTO) {
+    console.log(data)
     receiptId ? editReceipt({ ...data, id: receiptId }) : addReceipt(data)
   }
 
   return (
     <Navbar>
       <Form onSubmit={handleSubmit(handleSubmitForm)}>
-        <Input
+        <InputAutoComplete
           label="Empresa"
           name="companyId"
-          register={register}
+          control={control}
           errors={errors}
-          mask="99.999.999/9999-99"
+          options={
+            data
+              ? data.data.map(item => ({ label: item.name, value: item.id }))
+              : []
+          }
         />
-        <Input label="Valor" name="value" register={register} errors={errors} />
+        {/* <Input label="Valor" name="value" register={register} errors={errors} />
         <Input
           label="Número"
           name="number"
@@ -84,7 +101,7 @@ export function UpsertReceipt({
           name="paymentDate"
           register={register}
           errors={errors}
-        />
+        /> */}
 
         <Button label={receiptId ? 'Editar' : 'Cadastrar'} className="mt-6" />
       </Form>

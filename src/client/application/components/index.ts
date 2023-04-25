@@ -1,5 +1,6 @@
 export * from './button'
 export * from './form'
 export * from './input'
+export * from './input-autocomplete'
 export * from './navbar'
 export * from './table'
