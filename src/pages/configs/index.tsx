@@ -1,5 +1,5 @@
 import { withSSRAuthenticated } from '@/client/application/helpers'
-import { UpsertCategory } from '@/client/application/pages'
+import { ConfigsPage } from '@/client/application/pages'
 
 export const getServerSideProps = withSSRAuthenticated(async () => {
   return {
@@ -7,6 +7,6 @@ export const getServerSideProps = withSSRAuthenticated(async () => {
   }
 })
 
-export default function AddCategory() {
-  return <UpsertCategory />
+export default function Configs() {
+  return <ConfigsPage />
 }

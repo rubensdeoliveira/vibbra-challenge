@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import { AsideMenuItem, AsideMenuLabel } from './components'
 import { asideMenuItems } from './constants'
-import { FiFileText } from 'react-icons/fi'
 
 export function Aside() {
   const { asPath } = useRouter()

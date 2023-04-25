@@ -6,23 +6,28 @@ import {
   TableNavigation,
 } from './components'
 import { ListEntitiesModel } from '@/server/domain/models/common'
+import { IconBaseProps } from 'react-icons'
 
 export type TableHeader = {
   columnName: string
   columnLabel: string
 }
 
+type TableRowActionItem = {
+  action: (id: string) => void
+  icon: React.ComponentType<IconBaseProps>
+  renderConditionally?: {
+    column: string
+    valueToRender: any
+  }
+}
+
 export type TableActions = {
-  create?: {
+  createButton?: {
     label: string
     action: () => void
   }
-  update?: {
-    action: (id: string) => void
-  }
-  delete?: {
-    action: (id: string) => void
-  }
+  tableRowActions?: TableRowActionItem[]
 }
 
 export type TableProps = {

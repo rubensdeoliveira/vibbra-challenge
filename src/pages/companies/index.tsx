@@ -5,6 +5,7 @@ import { Navbar, Table } from '@/client/application/components'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { api } from '@/shared/utils'
 import Router from 'next/router'
+import { FiEdit2, FiTrash } from 'react-icons/fi'
 
 export const getServerSideProps = withSSRAuthenticated(async () => {
   return {
@@ -12,7 +13,7 @@ export const getServerSideProps = withSSRAuthenticated(async () => {
   }
 })
 
-export default function Companies() {
+export default function ListCompanies() {
   const [page] = useAtom(pageAtom)
   const [search] = useAtom(searchAtom)
   const utils = api.useContext()
@@ -46,16 +47,14 @@ export default function Companies() {
     <Navbar>
       <Table
         actions={{
-          create: {
+          createButton: {
             action: handleNavigateToAddPage,
             label: 'Adicionar empresa',
           },
-          update: {
-            action: handleNavigateToEditPage,
-          },
-          delete: {
-            action: handleDeleteItem,
-          },
+          tableRowActions: [
+            { action: handleNavigateToEditPage, icon: FiEdit2 },
+            { action: handleDeleteItem, icon: FiTrash },
+          ],
         }}
         header={[
           {

@@ -67,10 +67,26 @@ export class CompaniesRepository implements CompaniesRepositoryContract {
 
   getWhereCondition(search: string): Object {
     return {
-      name: {
-        contains: search,
-        mode: 'insensitive',
-      },
+      OR: [
+        {
+          name: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          corporateName: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          cnpj: {
+            contains: search,
+            mode: 'insensitive',
+          },
+        },
+      ],
     }
   }
 }

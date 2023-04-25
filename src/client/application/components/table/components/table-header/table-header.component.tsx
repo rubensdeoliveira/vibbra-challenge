@@ -20,7 +20,9 @@ export function TableHeader({ header, actions }: TableHeaderProps) {
             {headerItem.columnLabel}
           </Th>
         ))}
-        {actions && <Th className="w-[80px] rounded-r-[14px]">{''}</Th>}
+        {actions?.tableRowActions && actions.tableRowActions.length > 0 && (
+          <Th className="w-[80px] rounded-r-[14px]">{''}</Th>
+        )}
       </tr>
     </thead>
   )

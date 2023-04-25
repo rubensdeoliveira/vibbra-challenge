@@ -25,8 +25,8 @@ export const companiesRouter = createTRPCRouter({
     const getCompanyByIdUseCase = container.get<GetCompanyByIdUseCaseContract>(
       GetCompanyByIdUseCaseContractType,
     )
-    const companies = await getCompanyByIdUseCase.getById(input)
-    return companies
+    const company = await getCompanyByIdUseCase.getById(input)
+    return company
   }),
   list: protectedProcedure
     .input(ListPaginatedSchema)
@@ -67,7 +67,6 @@ export const companiesRouter = createTRPCRouter({
       const deleteCompanyUseCase = container.get<DeleteCompanyUseCaseContract>(
         DeleteCompanyUseCaseContractType,
       )
-      const deletedCompany = await deleteCompanyUseCase.delete(input)
-      return deletedCompany
+      await deleteCompanyUseCase.delete(input)
     }),
 })

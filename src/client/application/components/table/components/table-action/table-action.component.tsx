@@ -10,8 +10,11 @@ export function TableAction({ actions }: TableActionProps) {
   return (
     <div className="mb-10 flex items-center justify-between">
       <TableSearch />
-      {actions?.create && (
-        <Button onClick={actions.create.action} label={actions.create.label} />
+      {actions?.createButton && (
+        <Button
+          onClick={actions.createButton.action}
+          label={actions.createButton.label}
+        />
       )}
     </div>
   )

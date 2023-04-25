@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+    provider          = "postgresql"
+    url               = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Company {
@@ -15,6 +16,16 @@ model Company {
     name          String
     corporateName String
     cnpj          String
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+}
+
+model Category {
+    id          String   @id @default(uuid())
+    name        String
+    description String
+    archived    Boolean? @default(false)
 
     user   User   @relation(fields: [userId], references: [id])
     userId String
@@ -57,6 +68,7 @@ model User {
     sessions      Session[]
 
     companies Company[]
+    Category  Category[]
 }
 
 model VerificationToken {
