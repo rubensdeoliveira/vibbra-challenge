@@ -27,6 +27,36 @@ import {
   CategoriesRepositoryContractType,
   ToggleArchivedCategoryUseCaseContract,
   ToggleArchivedCategoryUseCaseContractType,
+  CreateReceiptUseCaseContract,
+  CreateReceiptUseCaseContractType,
+  UpdateReceiptUseCaseContract,
+  UpdateReceiptUseCaseContractType,
+  ListReceiptsUseCaseContract,
+  ListReceiptsUseCaseContractType,
+  GetReceiptByIdUseCaseContract,
+  GetReceiptByIdUseCaseContractType,
+  DeleteReceiptUseCaseContract,
+  DeleteReceiptUseCaseContractType,
+  ReceiptsRepositoryContract,
+  ReceiptsRepositoryContractType,
+  CreateCostUseCaseContract,
+  CreateCostUseCaseContractType,
+  UpdateCostUseCaseContract,
+  UpdateCostUseCaseContractType,
+  ListCostsUseCaseContract,
+  ListCostsUseCaseContractType,
+  GetCostByIdUseCaseContract,
+  GetCostByIdUseCaseContractType,
+  DeleteCostUseCaseContract,
+  DeleteCostUseCaseContractType,
+  CostsRepositoryContract,
+  CostsRepositoryContractType,
+  UpdateConfigUseCaseContract,
+  UpdateConfigUseCaseContractType,
+  GetConfigByUserIdUseCaseContract,
+  GetConfigByUserIdUseCaseContractType,
+  ConfigsRepositoryContract,
+  ConfigsRepositoryContractType,
 } from '@/server/domain/contracts'
 import {
   CreateCompanyUseCase,
@@ -40,13 +70,28 @@ import {
   ListCategoriesUseCase,
   UpdateCategoryUseCase,
   ToggleArchivedCategoryUseCase,
+  CreateReceiptUseCase,
+  UpdateReceiptUseCase,
+  ListReceiptsUseCase,
+  GetReceiptByIdUseCase,
+  DeleteReceiptUseCase,
+  CreateCostUseCase,
+  UpdateCostUseCase,
+  ListCostsUseCase,
+  GetCostByIdUseCase,
+  DeleteCostUseCase,
+  UpdateConfigUseCase,
+  GetConfigByUserIdUseCase,
 } from '@/server/domain/use-cases'
 import {
   CategoriesRepository,
   CompaniesRepository,
+  ConfigsRepository,
+  CostsRepository,
+  ReceiptsRepository,
 } from '@/server/infra/repositories'
 
-const container = new Container()
+export const container = new Container()
 
 // Repositories
 container
@@ -57,7 +102,20 @@ container
   .bind<CategoriesRepositoryContract>(CategoriesRepositoryContractType)
   .to(CategoriesRepository)
 
+container
+  .bind<ReceiptsRepositoryContract>(ReceiptsRepositoryContractType)
+  .to(ReceiptsRepository)
+
+container
+  .bind<CostsRepositoryContract>(CostsRepositoryContractType)
+  .to(CostsRepository)
+
+container
+  .bind<ConfigsRepositoryContract>(ConfigsRepositoryContractType)
+  .to(ConfigsRepository)
+
 // Use Cases
+
 // Company
 container
   .bind<CreateCompanyUseCaseContract>(CreateCompanyUseCaseContractType)
@@ -106,4 +164,54 @@ container
   )
   .to(ToggleArchivedCategoryUseCase)
 
-export { container }
+// Receipts
+container
+  .bind<CreateReceiptUseCaseContract>(CreateReceiptUseCaseContractType)
+  .to(CreateReceiptUseCase)
+
+container
+  .bind<UpdateReceiptUseCaseContract>(UpdateReceiptUseCaseContractType)
+  .to(UpdateReceiptUseCase)
+
+container
+  .bind<ListReceiptsUseCaseContract>(ListReceiptsUseCaseContractType)
+  .to(ListReceiptsUseCase)
+
+container
+  .bind<GetReceiptByIdUseCaseContract>(GetReceiptByIdUseCaseContractType)
+  .to(GetReceiptByIdUseCase)
+
+container
+  .bind<DeleteReceiptUseCaseContract>(DeleteReceiptUseCaseContractType)
+  .to(DeleteReceiptUseCase)
+
+// Costs
+container
+  .bind<CreateCostUseCaseContract>(CreateCostUseCaseContractType)
+  .to(CreateCostUseCase)
+
+container
+  .bind<UpdateCostUseCaseContract>(UpdateCostUseCaseContractType)
+  .to(UpdateCostUseCase)
+
+container
+  .bind<ListCostsUseCaseContract>(ListCostsUseCaseContractType)
+  .to(ListCostsUseCase)
+
+container
+  .bind<GetCostByIdUseCaseContract>(GetCostByIdUseCaseContractType)
+  .to(GetCostByIdUseCase)
+
+container
+  .bind<DeleteCostUseCaseContract>(DeleteCostUseCaseContractType)
+  .to(DeleteCostUseCase)
+
+// Configs
+
+container
+  .bind<UpdateConfigUseCaseContract>(UpdateConfigUseCaseContractType)
+  .to(UpdateConfigUseCase)
+
+container
+  .bind<GetConfigByUserIdUseCaseContract>(GetConfigByUserIdUseCaseContractType)
+  .to(GetConfigByUserIdUseCase)

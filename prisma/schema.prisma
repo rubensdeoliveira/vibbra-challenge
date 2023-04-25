@@ -10,12 +10,14 @@ datasource db {
 }
 
 model Company {
-  id            String @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
   corporateName String
   cnpj          String
   userId        String
-  user          User   @relation(fields: [userId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+  Receipt       Receipt[]
+  Cost          Cost[]
 
   @@index([userId])
 }
@@ -27,6 +29,52 @@ model Category {
   archived    Boolean? @default(false)
   userId      String
   user        User     @relation(fields: [userId], references: [id])
+  Cost        Cost[]
+
+  @@index([userId])
+}
+
+model Receipt {
+  id             String   @id @default(uuid())
+  value          Decimal  @db.Decimal(10, 2)
+  number         String
+  description    String
+  competenceDate DateTime
+  paymentDate    DateTime
+  companyId      String
+  company        Company  @relation(fields: [companyId], references: [id])
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([companyId])
+}
+
+model Cost {
+  id             String   @id @default(uuid())
+  value          Decimal  @db.Decimal(10, 2)
+  name           String
+  competenceDate DateTime
+  paymentDate    DateTime
+  companyId      String
+  company        Company  @relation(fields: [companyId], references: [id])
+  categoryId     String
+  category       Category @relation(fields: [categoryId], references: [id])
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([categoryId])
+}
+
+model Config {
+  id            String   @id @default(uuid())
+  notifyByEmail Boolean? @default(false)
+  notifyBySms   Boolean? @default(false)
+  meiLimit      Decimal? @default(81000) @db.Decimal(10, 2)
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
@@ -69,7 +117,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
   companies     Company[]
-  Category      Category[]
+  categories    Category[]
+  receipts      Receipt[]
+  costs         Cost[]
+  config        Config?
 }
 
 model VerificationToken {

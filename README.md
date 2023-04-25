@@ -1,28 +1,25 @@
-# Create T3 App
+Essencial
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+- [ ] Adicionar componente de autocomplete
+- [ ] Lançar nota fiscal
+- [ ] Lançar despesa
+- [ ] Adicionar validaçāo para nāo permitir um usuário ver itens de outro
+- [ ] Adicionar gráficos
+- [ ] Adicionar botāo de sair
+- [ ] Melhorar tela de login
+- [ ] Corrigir header
+- [ ] Adicionar breadcrumb
+- [ ] Adicionar componente de checkbox
+- [ ] Adicionar tela de configurações
+- [ ] Estimar horas
+- [ ] Criar um readme para o projeto
+- [ ] Testes
+- [ ] Subir projeto pro gitlab da vibbra
 
-## What's next? How do I make an app with this?
+Bonus
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- [ ] Refatorar aplicaçāo para colocar navbar ao redor de toda a aplicaçāo
+- [ ] Refatorar para adicionar um componente que tem a responsabilidade de testar isLoading e isError
+- [ ] Adicionar separações no menu
+- [ ] Trabalhar na responsividade (se faltar tempo, pelo menos tirar botāo de acionar menu lateral que vem no daisy ui em telas menores)
+- [ ] Configurar envio de e-mail automático com node-cron
