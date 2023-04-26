@@ -44,11 +44,12 @@ export class ReceiptsRepository implements ReceiptsRepositoryContract {
     page,
     rowsPerPage,
     search,
+    userId,
   }: ListReceiptsRepositoryContract.Input): Promise<ListReceiptsRepositoryContract.Output> {
     const receipts = await prisma.receipt.findMany({
       take: rowsPerPage,
       skip: (page - 1) * rowsPerPage,
-      where: this.getWhereCondition(search),
+      where: this.getWhereCondition(search, userId),
       include: { company: true },
     })
     return receipts
@@ -56,9 +57,10 @@ export class ReceiptsRepository implements ReceiptsRepositoryContract {
 
   async count({
     search,
+    userId,
   }: CountReceiptsRepositoryContract.Input): Promise<CountReceiptsRepositoryContract.Output> {
     const receiptsCount = await prisma.receipt.count({
-      where: this.getWhereCondition(search),
+      where: this.getWhereCondition(search, userId),
     })
     return receiptsCount
   }
@@ -69,7 +71,7 @@ export class ReceiptsRepository implements ReceiptsRepositoryContract {
     })
   }
 
-  getWhereCondition(search: string): Object {
+  getWhereCondition(search: string, userId: string): Object {
     return {
       OR: [
         {
@@ -83,6 +85,7 @@ export class ReceiptsRepository implements ReceiptsRepositoryContract {
           },
         },
       ],
+      userId,
     }
   }
 }

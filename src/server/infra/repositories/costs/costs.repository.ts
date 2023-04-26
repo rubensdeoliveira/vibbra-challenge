@@ -44,20 +44,22 @@ export class CostsRepository implements CostsRepositoryContract {
     page,
     rowsPerPage,
     search,
+    userId,
   }: ListCostsRepositoryContract.Input): Promise<ListCostsRepositoryContract.Output> {
     const costs = await prisma.cost.findMany({
       take: rowsPerPage,
       skip: (page - 1) * rowsPerPage,
-      where: this.getWhereCondition(search),
+      where: this.getWhereCondition(search, userId),
     })
     return costs
   }
 
   async count({
     search,
+    userId,
   }: CountCostsRepositoryContract.Input): Promise<CountCostsRepositoryContract.Output> {
     const costsCount = await prisma.cost.count({
-      where: this.getWhereCondition(search),
+      where: this.getWhereCondition(search, userId),
     })
     return costsCount
   }
@@ -68,7 +70,7 @@ export class CostsRepository implements CostsRepositoryContract {
     })
   }
 
-  getWhereCondition(search: string): Object {
+  getWhereCondition(search: string, userId: string): Object {
     return {
       OR: [
         {
@@ -77,6 +79,7 @@ export class CostsRepository implements CostsRepositoryContract {
           },
         },
       ],
+      userId,
     }
   }
 }

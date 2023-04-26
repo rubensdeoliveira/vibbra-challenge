@@ -41,20 +41,22 @@ export class CategoriesRepository implements CategoriesRepositoryContract {
     page,
     rowsPerPage,
     search,
+    userId,
   }: ListCategoriesRepositoryContract.Input): Promise<ListCategoriesRepositoryContract.Output> {
     const categories = await prisma.category.findMany({
       take: rowsPerPage,
       skip: (page - 1) * rowsPerPage,
-      where: this.getWhereCondition(search),
+      where: this.getWhereCondition(search, userId),
     })
     return categories
   }
 
   async count({
     search,
+    userId,
   }: CountCategoriesRepositoryContract.Input): Promise<CountCategoriesRepositoryContract.Output> {
     const categoriesCount = await prisma.category.count({
-      where: this.getWhereCondition(search),
+      where: this.getWhereCondition(search, userId),
     })
     return categoriesCount
   }
@@ -65,7 +67,7 @@ export class CategoriesRepository implements CategoriesRepositoryContract {
     })
   }
 
-  getWhereCondition(search: string): Object {
+  getWhereCondition(search: string, userId: string): Object {
     return {
       OR: [
         {
@@ -79,6 +81,7 @@ export class CategoriesRepository implements CategoriesRepositoryContract {
           },
         },
       ],
+      userId,
     }
   }
 }

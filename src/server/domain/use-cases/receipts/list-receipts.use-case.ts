@@ -17,13 +17,18 @@ export class ListReceiptsUseCase implements ListReceiptsUseCaseContract {
     page,
     rowsPerPage = 10,
     search = '',
+    userId,
   }: ListReceiptsUseCaseContract.Input): Promise<ListReceiptsUseCaseContract.Output> {
     const receipts = await this.receiptsRepository.list({
       page,
       rowsPerPage,
       search,
+      userId,
     })
-    const receiptsCount = await this.receiptsRepository.count({ search })
+    const receiptsCount = await this.receiptsRepository.count({
+      search,
+      userId,
+    })
     return {
       data: receipts,
       lastPage: Math.ceil(receiptsCount / rowsPerPage),

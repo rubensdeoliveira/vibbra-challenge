@@ -39,12 +39,15 @@ export namespace UpsertCategoryRepositoryContract {
 }
 
 export namespace ListCategoriesRepositoryContract {
-  export type Input = WithRequired<ListPaginatedDTO, 'search' | 'rowsPerPage'>
+  export type Input = WithRequired<
+    ListPaginatedDTO,
+    'search' | 'rowsPerPage'
+  > & { userId: string }
   export type Output = Category[]
 }
 
 export namespace CountCategoriesRepositoryContract {
-  export type Input = WithRequired<ListCountDTO, 'search'>
+  export type Input = WithRequired<ListCountDTO, 'search'> & { userId: string }
   export type Output = number
 }
 

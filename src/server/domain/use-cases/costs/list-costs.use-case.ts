@@ -17,13 +17,15 @@ export class ListCostsUseCase implements ListCostsUseCaseContract {
     page,
     rowsPerPage = 10,
     search = '',
+    userId,
   }: ListCostsUseCaseContract.Input): Promise<ListCostsUseCaseContract.Output> {
     const costs = await this.costsRepository.list({
       page,
       rowsPerPage,
       search,
+      userId,
     })
-    const costsCount = await this.costsRepository.count({ search })
+    const costsCount = await this.costsRepository.count({ search, userId })
     return {
       data: costs,
       lastPage: Math.ceil(costsCount / rowsPerPage),

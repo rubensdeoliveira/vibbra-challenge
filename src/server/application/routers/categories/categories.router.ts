@@ -34,12 +34,15 @@ export const categoriesRouter = createTRPCRouter({
   }),
   list: protectedProcedure
     .input(ListPaginatedSchema)
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const listCategoriesUseCase =
         container.get<ListCategoriesUseCaseContract>(
           ListCategoriesUseCaseContractType,
         )
-      const categories = await listCategoriesUseCase.list(input)
+      const categories = await listCategoriesUseCase.list({
+        ...input,
+        userId: ctx.session.user.id,
+      })
       return categories
     }),
   create: protectedProcedure

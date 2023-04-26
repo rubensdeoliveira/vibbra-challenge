@@ -17,13 +17,18 @@ export class ListCompaniesUseCase implements ListCompaniesUseCaseContract {
     page,
     rowsPerPage = 10,
     search = '',
+    userId,
   }: ListCompaniesUseCaseContract.Input): Promise<ListCompaniesUseCaseContract.Output> {
     const companies = await this.companiesRepository.list({
       page,
       rowsPerPage,
       search,
+      userId,
     })
-    const companiesCount = await this.companiesRepository.count({ search })
+    const companiesCount = await this.companiesRepository.count({
+      search,
+      userId,
+    })
     return {
       data: companies,
       lastPage: Math.ceil(companiesCount / rowsPerPage),

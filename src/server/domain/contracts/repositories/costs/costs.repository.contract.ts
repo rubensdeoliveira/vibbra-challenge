@@ -40,12 +40,15 @@ export namespace UpsertCostRepositoryContract {
 }
 
 export namespace ListCostsRepositoryContract {
-  export type Input = WithRequired<ListPaginatedDTO, 'search' | 'rowsPerPage'>
+  export type Input = WithRequired<
+    ListPaginatedDTO,
+    'search' | 'rowsPerPage'
+  > & { userId: string }
   export type Output = Cost[]
 }
 
 export namespace CountCostsRepositoryContract {
-  export type Input = WithRequired<ListCountDTO, 'search'>
+  export type Input = WithRequired<ListCountDTO, 'search'> & { userId: string }
   export type Output = number
 }
 

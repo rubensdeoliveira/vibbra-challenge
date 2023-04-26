@@ -9,7 +9,7 @@ export interface ListCompaniesUseCaseContract {
 }
 
 export namespace ListCompaniesUseCaseContract {
-  export type Input = ListPaginatedDTO
+  export type Input = ListPaginatedDTO & { userId: string }
   export type Output = ListEntitiesModel<Company>
 }
 

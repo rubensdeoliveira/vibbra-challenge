@@ -35,12 +35,15 @@ export namespace UpsertReceiptRepositoryContract {
 }
 
 export namespace ListReceiptsRepositoryContract {
-  export type Input = WithRequired<ListPaginatedDTO, 'search' | 'rowsPerPage'>
+  export type Input = WithRequired<
+    ListPaginatedDTO,
+    'search' | 'rowsPerPage'
+  > & { userId: string }
   export type Output = (Receipt & { company: Company })[]
 }
 
 export namespace CountReceiptsRepositoryContract {
-  export type Input = WithRequired<ListCountDTO, 'search'>
+  export type Input = WithRequired<ListCountDTO, 'search'> & { userId: string }
   export type Output = number
 }
 
