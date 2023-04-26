@@ -28,6 +28,9 @@ export class GetConfigByUserIdUseCase
         message: 'Configuraçāo nāo encontrada!',
       })
     }
-    return config
+    return {
+      ...config,
+      meiLimit: config.meiLimit.toNumber(),
+    }
   }
 }

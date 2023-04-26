@@ -23,5 +23,9 @@ export default function Configs() {
     return <p>Erro</p>
   }
 
-  return <ConfigsPage defaultValues={config} />
+  const { userId: _, ...configWithoutUserId } = config
+
+  return (
+    <ConfigsPage defaultValues={configWithoutUserId} configId={config.id} />
+  )
 }

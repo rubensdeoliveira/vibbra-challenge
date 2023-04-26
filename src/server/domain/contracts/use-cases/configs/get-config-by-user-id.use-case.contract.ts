@@ -9,7 +9,7 @@ export interface GetConfigByUserIdUseCaseContract {
 
 export namespace GetConfigByUserIdUseCaseContract {
   export type Input = GetConfigByUserIdDTO
-  export type Output = Config
+  export type Output = Omit<Config, 'meiLimit'> & { meiLimit: number }
 }
 
 export const GetConfigByUserIdUseCaseContractType = Symbol(
