@@ -56,8 +56,8 @@ model Cost {
   name           String
   competenceDate DateTime
   paymentDate    DateTime
-  companyId      String
-  company        Company  @relation(fields: [companyId], references: [id])
+  companyId      String?
+  company        Company? @relation(fields: [companyId], references: [id])
   categoryId     String
   category       Category @relation(fields: [categoryId], references: [id])
   userId         String

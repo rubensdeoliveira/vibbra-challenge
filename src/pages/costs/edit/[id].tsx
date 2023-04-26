@@ -29,5 +29,21 @@ export default function EditCost() {
     return <p>Erro</p>
   }
 
-  return <UpsertCost defaultValues={cost} costId={costId} />
+  return (
+    <UpsertCost
+      defaultValues={{
+        ...cost,
+        companyId: {
+          value: cost?.company?.id ?? '',
+          label: cost.company?.name ?? '',
+        },
+        categoryId: {
+          value: cost.category.id,
+          label: cost.category.name,
+        },
+        value: String(cost.value),
+      }}
+      costId={costId}
+    />
+  )
 }

@@ -1,4 +1,4 @@
-import { type Cost } from '@prisma/client'
+import { Category, Company, type Cost } from '@prisma/client'
 import { GetByIdDTO } from '@/shared/schemas/common'
 
 export interface GetCostByIdUseCaseContract {
@@ -9,7 +9,10 @@ export interface GetCostByIdUseCaseContract {
 
 export namespace GetCostByIdUseCaseContract {
   export type Input = GetByIdDTO
-  export type Output = Omit<Cost, 'value'> & { value: number }
+  export type Output = Omit<Cost, 'value'> & { value: number } & {
+    category: Category
+    company: Company | null
+  }
 }
 
 export const GetCostByIdUseCaseContractType = Symbol(

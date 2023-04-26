@@ -15,7 +15,10 @@ export class CostsRepository implements CostsRepositoryContract {
   async getById({
     id,
   }: GetCostByIdRepositoryContract.Input): Promise<GetCostByIdRepositoryContract.Output> {
-    const cost = await prisma.cost.findUnique({ where: { id } })
+    const cost = await prisma.cost.findUnique({
+      where: { id },
+      include: { category: true, company: true },
+    })
     return cost
   }
 

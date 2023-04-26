@@ -5,7 +5,7 @@ import {
   type ListCountDTO,
   type ListPaginatedDTO,
 } from '@/shared/schemas/common'
-import { type Cost } from '@prisma/client'
+import { Category, Company, type Cost } from '@prisma/client'
 import { WithRequired } from '@tanstack/react-query'
 
 export interface CostsRepositoryContract {
@@ -26,7 +26,12 @@ export interface CostsRepositoryContract {
 
 export namespace GetCostByIdRepositoryContract {
   export type Input = GetByIdDTO
-  export type Output = Cost | null
+  export type Output =
+    | (Cost & {
+        category: Category
+        company: Company | null
+      })
+    | null
 }
 
 export namespace UpsertCostRepositoryContract {

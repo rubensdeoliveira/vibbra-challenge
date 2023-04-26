@@ -7,13 +7,17 @@ import {
   Form,
   Input,
   InputAutoComplete,
+  InputCurrency,
+  InputDate,
   Navbar,
 } from '@/client/application/components'
-import { CreateReceiptDTO, CreateReceiptSchema } from '@/shared/schemas'
+import { CreateReceiptFormDTO, CreateReceiptFormSchema } from '@/shared/schemas'
 import { api } from '@/shared/utils'
+import { z } from 'zod'
+import { convertCurrency } from '@/client/application/helpers'
 
 type UpsertReceiptProps = {
-  defaultValues?: CreateReceiptDTO
+  defaultValues?: CreateReceiptFormDTO
   receiptId?: string
 }
 
@@ -26,14 +30,14 @@ export function UpsertReceipt({
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<CreateReceiptDTO>({
-    resolver: zodResolver(CreateReceiptSchema),
+  } = useForm<CreateReceiptFormDTO>({
+    resolver: zodResolver(CreateReceiptFormSchema),
     defaultValues,
   })
   const { push } = useRouter()
   const utils = api.useContext()
 
-  const { data } = api.company.list.useQuery({
+  const { data: companies } = api.company.list.useQuery({
     page: 1,
     rowsPerPage: 99999,
   })
@@ -57,9 +61,14 @@ export function UpsertReceipt({
     },
   })
 
-  function handleSubmitForm(data: CreateReceiptDTO) {
+  function handleSubmitForm(data: CreateReceiptFormDTO) {
     console.log(data)
-    receiptId ? editReceipt({ ...data, id: receiptId }) : addReceipt(data)
+    receiptId
+      ? editReceipt({
+          ...data,
+          id: receiptId,
+        })
+      : addReceipt(data)
   }
 
   return (
@@ -70,13 +79,37 @@ export function UpsertReceipt({
           name="companyId"
           control={control}
           errors={errors}
+          placeholder="Digite e escolha a empresa"
           options={
-            data
-              ? data.data.map(item => ({ label: item.name, value: item.id }))
+            companies
+              ? companies.data.map(item => ({
+                  label: item.name,
+                  value: item.id,
+                }))
               : []
           }
         />
-        {/* <Input label="Valor" name="value" register={register} errors={errors} />
+        <InputDate
+          label="Data de competência"
+          name="competenceDate"
+          control={control}
+          errors={errors}
+          defaultValue={defaultValues?.competenceDate}
+        />
+        <InputDate
+          label="Data de recebimento"
+          name="paymentDate"
+          control={control}
+          errors={errors}
+          defaultValue={defaultValues?.paymentDate}
+        />
+        <InputCurrency
+          label="Valor"
+          name="value"
+          control={control}
+          errors={errors}
+          placeholder="Digite o valor da nota fiscal"
+        />
         <Input
           label="Número"
           name="number"
@@ -88,20 +121,7 @@ export function UpsertReceipt({
           name="description"
           register={register}
           errors={errors}
-          mask="99.999.999/9999-99"
         />
-        <Input
-          label="Mês de competência"
-          name="competenceDate"
-          register={register}
-          errors={errors}
-        />
-        <Input
-          label="Data de recebimento"
-          name="paymentDate"
-          register={register}
-          errors={errors}
-        /> */}
 
         <Button label={receiptId ? 'Editar' : 'Cadastrar'} className="mt-6" />
       </Form>

@@ -53,28 +53,15 @@ export function InputAutoComplete({
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value } }) => (
-          <Combobox
-            value={value || ''}
-            onChange={(option: Option | null) => {
-              if (option) {
-                onChange(option.value)
-              } else {
-                onChange('')
-              }
-            }}
-          >
+        render={({ field }) => (
+          <Combobox {...field}>
             {({ open, activeOption }) => (
-              <>
+              <div>
                 <Combobox.Input
                   placeholder={placeholder}
                   className={inputStyles({ className })}
                   onChange={event => setQuery(event.target.value)}
                   displayValue={(option: Option) => option.label}
-                  value={
-                    filteredOptions.find(option => option.value === value)
-                      ?.label ?? ''
-                  }
                 />
                 <Transition
                   show={open}
@@ -98,14 +85,14 @@ export function InputAutoComplete({
                           activeOption === option
                             ? 'bg-green-500'
                             : 'bg-gray-1000'
-                        } px-5 py-4 hover:bg-white`}
+                        } px-5 py-4 hover:bg-green-500`}
                       >
                         {option.label}
                       </Combobox.Option>
                     ))}
                   </Combobox.Options>
                 </Transition>
-              </>
+              </div>
             )}
           </Combobox>
         )}

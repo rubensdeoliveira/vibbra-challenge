@@ -15,7 +15,10 @@ export class ReceiptsRepository implements ReceiptsRepositoryContract {
   async getById({
     id,
   }: GetReceiptByIdRepositoryContract.Input): Promise<GetReceiptByIdRepositoryContract.Output> {
-    const receipt = await prisma.receipt.findUnique({ where: { id } })
+    const receipt = await prisma.receipt.findUnique({
+      where: { id },
+      include: { company: true },
+    })
     return receipt
   }
 
@@ -46,6 +49,7 @@ export class ReceiptsRepository implements ReceiptsRepositoryContract {
       take: rowsPerPage,
       skip: (page - 1) * rowsPerPage,
       where: this.getWhereCondition(search),
+      include: { company: true },
     })
     return receipts
   }

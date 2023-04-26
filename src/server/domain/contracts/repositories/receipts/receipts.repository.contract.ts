@@ -5,7 +5,7 @@ import {
   type ListCountDTO,
   type ListPaginatedDTO,
 } from '@/shared/schemas/common'
-import { type Receipt } from '@prisma/client'
+import { Company, type Receipt } from '@prisma/client'
 import { WithRequired } from '@tanstack/react-query'
 
 export interface ReceiptsRepositoryContract {
@@ -26,7 +26,7 @@ export interface ReceiptsRepositoryContract {
 
 export namespace GetReceiptByIdRepositoryContract {
   export type Input = GetByIdDTO
-  export type Output = Receipt | null
+  export type Output = (Receipt & { company: Company }) | null
 }
 
 export namespace UpsertReceiptRepositoryContract {
@@ -36,7 +36,7 @@ export namespace UpsertReceiptRepositoryContract {
 
 export namespace ListReceiptsRepositoryContract {
   export type Input = WithRequired<ListPaginatedDTO, 'search' | 'rowsPerPage'>
-  export type Output = Receipt[]
+  export type Output = (Receipt & { company: Company })[]
 }
 
 export namespace CountReceiptsRepositoryContract {

@@ -10,6 +10,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   errors: FieldErrors<any>
   mask?: string
   className?: string
+  maskPlaceholder?: string
 }
 
 const inputStyles = cva(
@@ -23,6 +24,7 @@ export function Input({
   errors,
   className,
   mask,
+  maskPlaceholder,
   ...props
 }: InputProps) {
   const errorMessage = errors && errors[name]?.message
@@ -38,6 +40,7 @@ export function Input({
           mask={mask}
           alwaysShowMask={false}
           maskChar={' '}
+          maskPlaceholder={maskPlaceholder}
         />
       ) : (
         <input

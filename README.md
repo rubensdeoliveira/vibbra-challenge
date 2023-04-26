@@ -1,8 +1,8 @@
 Essencial
 
-- [ ] Adicionar componente de autocomplete
-- [ ] Lançar nota fiscal
-- [ ] Lançar despesa
+- [x] Adicionar componente de autocomplete
+- [x] Lançar nota fiscal
+- [x] Lançar despesa
 - [ ] Adicionar validaçāo para nāo permitir um usuário ver itens de outro
 - [ ] Adicionar gráficos
 - [ ] Adicionar botāo de sair
@@ -15,6 +15,8 @@ Essencial
 - [ ] Criar um readme para o projeto
 - [ ] Testes
 - [ ] Subir projeto pro gitlab da vibbra
+- [ ] Tratamento de erros
+- [ ] Criar uma configuraçāo do usuário ao criar ele
 
 Bonus
 

@@ -1,7 +1,10 @@
 import { type Config } from 'tailwindcss'
 
 export default {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/tailwind-datepicker-react/dist/**/*.js',
+  ],
   theme: {
     colors: {
       gray: {
@@ -38,4 +41,5 @@ export default {
     },
   },
   plugins: [require('daisyui')],
+  darkMode: 'class',
 } satisfies Config

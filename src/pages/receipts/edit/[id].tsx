@@ -29,5 +29,14 @@ export default function EditReceipt() {
     return <p>Erro</p>
   }
 
-  return <UpsertReceipt defaultValues={receipt} receiptId={receiptId} />
+  return (
+    <UpsertReceipt
+      defaultValues={{
+        ...receipt,
+        companyId: { value: receipt.company.id, label: receipt.company.name },
+        value: String(receipt.value),
+      }}
+      receiptId={receiptId}
+    />
+  )
 }
