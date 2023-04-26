@@ -2,6 +2,7 @@ import {
   CreateCostSchema,
   DeleteItemSchema,
   GetByIdSchema,
+  ListAmountByMonthInYearPaginatedSchema,
   ListPaginatedSchema,
   UpdateCostSchema,
 } from '@/shared/schemas'
@@ -13,6 +14,8 @@ import {
   DeleteCostUseCaseContractType,
   GetCostByIdUseCaseContract,
   GetCostByIdUseCaseContractType,
+  ListAmountByMonthInYearCostsUseCaseContract,
+  ListAmountByMonthInYearCostsUseCaseContractType,
   ListCostsUseCaseContract,
   ListCostsUseCaseContractType,
   UpdateCostUseCaseContract,
@@ -71,5 +74,19 @@ export const costsRouter = createTRPCRouter({
         DeleteCostUseCaseContractType,
       )
       await deleteCostUseCase.delete(input)
+    }),
+  listAmountByMonthInYear: protectedProcedure
+    .input(ListAmountByMonthInYearPaginatedSchema)
+    .query(async ({ input, ctx }) => {
+      const listAmountByMonthInYearCostsUseCase =
+        container.get<ListAmountByMonthInYearCostsUseCaseContract>(
+          ListAmountByMonthInYearCostsUseCaseContractType,
+        )
+      const costs =
+        await listAmountByMonthInYearCostsUseCase.listAmountByMonthInYear({
+          ...input,
+          userId: ctx.session.user.id,
+        })
+      return costs
     }),
 })

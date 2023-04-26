@@ -2,6 +2,7 @@ import { type CreateCostDTO } from '@/shared/schemas'
 import {
   DeleteItemDTO,
   GetByIdDTO,
+  ListAmountByMonthInYearPaginatedDTO,
   type ListCountDTO,
   type ListPaginatedDTO,
 } from '@/shared/schemas/common'
@@ -18,6 +19,9 @@ export interface CostsRepositoryContract {
   list: (
     data: ListCostsRepositoryContract.Input,
   ) => Promise<ListCostsRepositoryContract.Output>
+  listByYear: (
+    data: ListByYearCostsRepositoryContract.Input,
+  ) => Promise<ListByYearCostsRepositoryContract.Output>
   count: (
     data: CountCostsRepositoryContract.Input,
   ) => Promise<CountCostsRepositoryContract.Output>
@@ -44,6 +48,11 @@ export namespace ListCostsRepositoryContract {
     ListPaginatedDTO,
     'search' | 'rowsPerPage'
   > & { userId: string }
+  export type Output = Cost[]
+}
+
+export namespace ListByYearCostsRepositoryContract {
+  export type Input = ListAmountByMonthInYearPaginatedDTO & { userId: string }
   export type Output = Cost[]
 }
 

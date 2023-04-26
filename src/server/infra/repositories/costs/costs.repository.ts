@@ -8,6 +8,7 @@ import {
   type UpsertCostRepositoryContract,
   type ListCostsRepositoryContract,
   DeleteCostRepositoryContract,
+  ListByYearCostsRepositoryContract,
 } from '@/server/domain/contracts'
 
 @injectable()
@@ -50,6 +51,22 @@ export class CostsRepository implements CostsRepositoryContract {
       take: rowsPerPage,
       skip: (page - 1) * rowsPerPage,
       where: this.getWhereCondition(search, userId),
+    })
+    return costs
+  }
+
+  async listByYear({
+    userId,
+    year,
+  }: ListByYearCostsRepositoryContract.Input): Promise<ListByYearCostsRepositoryContract.Output> {
+    const costs = await prisma.cost.findMany({
+      where: {
+        userId,
+        competenceDate: {
+          gte: new Date(`${year}-01-01`),
+          lt: new Date(`${year}-12-31`),
+        },
+      },
     })
     return costs
   }

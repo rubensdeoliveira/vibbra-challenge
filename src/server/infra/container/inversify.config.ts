@@ -59,6 +59,10 @@ import {
   ConfigsRepositoryContractType,
   CreateConfigUseCaseContract,
   CreateConfigUseCaseContractType,
+  ListAmountByMonthInYearReceiptsUseCaseContract,
+  ListAmountByMonthInYearReceiptsUseCaseContractType,
+  ListAmountByMonthInYearCostsUseCaseContract,
+  ListAmountByMonthInYearCostsUseCaseContractType,
 } from '@/server/domain/contracts'
 import {
   CreateCompanyUseCase,
@@ -85,6 +89,8 @@ import {
   UpdateConfigUseCase,
   GetConfigByUserIdUseCase,
   CreateConfigUseCase,
+  ListAmountByMonthInYearReceiptsUseCase,
+  ListAmountByMonthInYearCostsUseCase,
 } from '@/server/domain/use-cases'
 import {
   CategoriesRepository,
@@ -181,6 +187,12 @@ container
   .to(ListReceiptsUseCase)
 
 container
+  .bind<ListAmountByMonthInYearReceiptsUseCaseContract>(
+    ListAmountByMonthInYearReceiptsUseCaseContractType,
+  )
+  .to(ListAmountByMonthInYearReceiptsUseCase)
+
+container
   .bind<GetReceiptByIdUseCaseContract>(GetReceiptByIdUseCaseContractType)
   .to(GetReceiptByIdUseCase)
 
@@ -200,6 +212,12 @@ container
 container
   .bind<ListCostsUseCaseContract>(ListCostsUseCaseContractType)
   .to(ListCostsUseCase)
+
+container
+  .bind<ListAmountByMonthInYearCostsUseCaseContract>(
+    ListAmountByMonthInYearCostsUseCaseContractType,
+  )
+  .to(ListAmountByMonthInYearCostsUseCase)
 
 container
   .bind<GetCostByIdUseCaseContract>(GetCostByIdUseCaseContractType)

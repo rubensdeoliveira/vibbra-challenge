@@ -1,7 +1,6 @@
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { ConfigsPage } from '@/client/application/pages'
 import { api } from '@/shared/utils'
-import { useRouter } from 'next/router'
 
 export const getServerSideProps = withSSRAuthenticated(async () => {
   return {
@@ -10,10 +9,7 @@ export const getServerSideProps = withSSRAuthenticated(async () => {
 })
 
 export default function Configs() {
-  const { query } = useRouter()
-  const configId = String(query.id)
-
-  const { data: config, isLoading, isError } = api.config.getByUser.useQuery()
+  const { data: config, isLoading } = api.config.getByUser.useQuery()
 
   if (isLoading) {
     return <p>carregando...</p>
@@ -25,7 +21,7 @@ export default function Configs() {
         config && {
           notifyByEmail: config.notifyByEmail,
           notifyBySms: config.notifyBySms,
-          meiLimit: config.meiLimit,
+          meiLimit: String(config.meiLimit),
         }
       }
       configId={config?.id}

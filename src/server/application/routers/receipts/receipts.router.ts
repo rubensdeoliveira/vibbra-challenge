@@ -2,6 +2,7 @@ import {
   CreateReceiptSchema,
   DeleteItemSchema,
   GetByIdSchema,
+  ListAmountByMonthInYearPaginatedSchema,
   ListPaginatedSchema,
   UpdateReceiptSchema,
 } from '@/shared/schemas'
@@ -13,6 +14,8 @@ import {
   DeleteReceiptUseCaseContractType,
   GetReceiptByIdUseCaseContract,
   GetReceiptByIdUseCaseContractType,
+  ListAmountByMonthInYearReceiptsUseCaseContract,
+  ListAmountByMonthInYearReceiptsUseCaseContractType,
   ListReceiptsUseCaseContract,
   ListReceiptsUseCaseContractType,
   UpdateReceiptUseCaseContract,
@@ -71,5 +74,19 @@ export const receiptsRouter = createTRPCRouter({
         DeleteReceiptUseCaseContractType,
       )
       await deleteReceiptUseCase.delete(input)
+    }),
+  listAmountByMonthInYear: protectedProcedure
+    .input(ListAmountByMonthInYearPaginatedSchema)
+    .query(async ({ input, ctx }) => {
+      const listAmountByMonthInYearReceiptsUseCase =
+        container.get<ListAmountByMonthInYearReceiptsUseCaseContract>(
+          ListAmountByMonthInYearReceiptsUseCaseContractType,
+        )
+      const receipts =
+        await listAmountByMonthInYearReceiptsUseCase.listAmountByMonthInYear({
+          ...input,
+          userId: ctx.session.user.id,
+        })
+      return receipts
     }),
 })

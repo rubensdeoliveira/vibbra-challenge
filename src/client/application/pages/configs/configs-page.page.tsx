@@ -8,16 +8,12 @@ import {
   InputCurrency,
   Navbar,
 } from '@/client/application/components'
-import {
-  CreateConfigDTO,
-  CreateConfigSchema,
-  UpdateConfigFormSchema,
-} from '@/shared/schemas'
+import { CreateConfigFormDTO, CreateConfigFormSchema } from '@/shared/schemas'
 import { api } from '@/shared/utils'
 import { InputSwitch } from '../../components/input-switch'
 
 type UpsertConfigProps = {
-  defaultValues?: CreateConfigDTO
+  defaultValues?: CreateConfigFormDTO
   configId?: string
 }
 
@@ -26,9 +22,11 @@ export function ConfigsPage({ defaultValues, configId }: UpsertConfigProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateConfigDTO>({
-    resolver: zodResolver(CreateConfigSchema),
-    defaultValues,
+  } = useForm<CreateConfigFormDTO>({
+    resolver: zodResolver(CreateConfigFormSchema),
+    defaultValues: defaultValues
+      ? defaultValues
+      : { meiLimit: '81000', notifyByEmail: true, notifyBySms: true },
   })
   const { push } = useRouter()
   const utils = api.useContext()
@@ -53,7 +51,7 @@ export function ConfigsPage({ defaultValues, configId }: UpsertConfigProps) {
     },
   })
 
-  function handleSubmitForm(data: CreateConfigDTO) {
+  function handleSubmitForm(data: CreateConfigFormDTO) {
     console.log(configId)
     configId
       ? updateConfig({ ...data, meiLimit: String(data.meiLimit), id: configId })

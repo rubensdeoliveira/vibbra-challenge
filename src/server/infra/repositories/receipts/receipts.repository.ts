@@ -8,6 +8,7 @@ import {
   type UpsertReceiptRepositoryContract,
   type ListReceiptsRepositoryContract,
   DeleteReceiptRepositoryContract,
+  ListByYearReceiptsRepositoryContract,
 } from '@/server/domain/contracts'
 
 @injectable()
@@ -50,6 +51,23 @@ export class ReceiptsRepository implements ReceiptsRepositoryContract {
       take: rowsPerPage,
       skip: (page - 1) * rowsPerPage,
       where: this.getWhereCondition(search, userId),
+      include: { company: true },
+    })
+    return receipts
+  }
+
+  async listByYear({
+    userId,
+    year,
+  }: ListByYearReceiptsRepositoryContract.Input): Promise<ListByYearReceiptsRepositoryContract.Output> {
+    const receipts = await prisma.receipt.findMany({
+      where: {
+        userId,
+        competenceDate: {
+          gte: new Date(`${year}-01-01`),
+          lt: new Date(`${year}-12-31`),
+        },
+      },
       include: { company: true },
     })
     return receipts

@@ -12,13 +12,12 @@ const upsertFields = {
     }),
 }
 
-export const UpdateConfigFormSchema = z.object({
+export const CreateConfigFormSchema = z.object({
   ...upsertFields,
-  id: z.string().uuid(),
   meiLimit: z.string(),
 })
 
-export type UpdateConfigFormDTO = z.infer<typeof UpdateConfigFormSchema>
+export type CreateConfigFormDTO = z.infer<typeof CreateConfigFormSchema>
 
 export const UpdateConfigSchema = z.object({
   ...upsertFields,

@@ -2,6 +2,7 @@ import { type CreateReceiptDTO } from '@/shared/schemas'
 import {
   DeleteItemDTO,
   GetByIdDTO,
+  ListAmountByMonthInYearPaginatedDTO,
   type ListCountDTO,
   type ListPaginatedDTO,
 } from '@/shared/schemas/common'
@@ -18,6 +19,9 @@ export interface ReceiptsRepositoryContract {
   list: (
     data: ListReceiptsRepositoryContract.Input,
   ) => Promise<ListReceiptsRepositoryContract.Output>
+  listByYear: (
+    data: ListByYearReceiptsRepositoryContract.Input,
+  ) => Promise<ListByYearReceiptsRepositoryContract.Output>
   count: (
     data: CountReceiptsRepositoryContract.Input,
   ) => Promise<CountReceiptsRepositoryContract.Output>
@@ -39,6 +43,11 @@ export namespace ListReceiptsRepositoryContract {
     ListPaginatedDTO,
     'search' | 'rowsPerPage'
   > & { userId: string }
+  export type Output = (Receipt & { company: Company })[]
+}
+
+export namespace ListByYearReceiptsRepositoryContract {
+  export type Input = ListAmountByMonthInYearPaginatedDTO & { userId: string }
   export type Output = (Receipt & { company: Company })[]
 }
 

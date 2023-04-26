@@ -35,6 +35,9 @@ export default {
         600: '#D07407',
       },
       white: '#ffffff',
+      yellow: {
+        800: '#D9B75F',
+      },
     },
     fontFamily: {
       poppins: 'Poppins',

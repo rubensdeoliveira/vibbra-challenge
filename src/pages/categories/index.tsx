@@ -18,7 +18,7 @@ export default function ListCategories() {
   const [search] = useAtom(searchAtom)
   const utils = api.useContext()
 
-  const { data } = api.category.list.useQuery({
+  const { data, isLoading, isError } = api.category.list.useQuery({
     page,
     search,
   })
