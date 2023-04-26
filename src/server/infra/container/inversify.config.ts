@@ -57,6 +57,8 @@ import {
   GetConfigByUserIdUseCaseContractType,
   ConfigsRepositoryContract,
   ConfigsRepositoryContractType,
+  CreateConfigUseCaseContract,
+  CreateConfigUseCaseContractType,
 } from '@/server/domain/contracts'
 import {
   CreateCompanyUseCase,
@@ -82,6 +84,7 @@ import {
   DeleteCostUseCase,
   UpdateConfigUseCase,
   GetConfigByUserIdUseCase,
+  CreateConfigUseCase,
 } from '@/server/domain/use-cases'
 import {
   CategoriesRepository,
@@ -207,6 +210,10 @@ container
   .to(DeleteCostUseCase)
 
 // Configs
+
+container
+  .bind<CreateConfigUseCaseContract>(CreateConfigUseCaseContractType)
+  .to(CreateConfigUseCase)
 
 container
   .bind<UpdateConfigUseCaseContract>(UpdateConfigUseCaseContractType)

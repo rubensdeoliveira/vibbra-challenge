@@ -28,6 +28,36 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
       },
     }),
+    async signIn({ user }) {
+      const email = user.email
+      if (email) {
+        const findRegisteredUser = await prisma.user.findUnique({
+          where: {
+            email,
+          },
+        })
+        if (findRegisteredUser) {
+          const findConfig = await prisma.config.findUnique({
+            where: { userId: findRegisteredUser.id },
+          })
+          if (!findConfig) {
+            await prisma.config.create({
+              data: {
+                meiLimit: 81000,
+                notifyByEmail: false,
+                notifyBySms: false,
+                userId: findRegisteredUser.id,
+              },
+            })
+          }
+          return true
+        } else {
+          return true
+        }
+      }
+
+      return true
+    },
   },
   adapter: PrismaAdapter(prisma),
   providers: [

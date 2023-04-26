@@ -5,6 +5,7 @@ import {
   GetConfigByUserIdRepositoryContract,
   type ConfigsRepositoryContract,
   type UpdateConfigRepositoryContract,
+  CreateConfigRepositoryContract,
 } from '@/server/domain/contracts'
 
 @injectable()
@@ -13,6 +14,13 @@ export class ConfigsRepository implements ConfigsRepositoryContract {
     userId,
   }: GetConfigByUserIdRepositoryContract.Input): Promise<GetConfigByUserIdRepositoryContract.Output> {
     const config = await prisma.config.findUnique({ where: { userId } })
+    return config
+  }
+
+  async create(
+    data: CreateConfigRepositoryContract.Input,
+  ): Promise<CreateConfigRepositoryContract.Output> {
+    const config = await prisma.config.create({ data })
     return config
   }
 

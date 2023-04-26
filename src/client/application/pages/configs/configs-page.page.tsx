@@ -5,16 +5,20 @@ import { useRouter } from 'next/router'
 import {
   Button,
   Form,
-  Input,
   InputCurrency,
   Navbar,
 } from '@/client/application/components'
-import { UpdateConfigDTO, UpdateConfigSchema } from '@/shared/schemas'
+import {
+  CreateConfigDTO,
+  CreateConfigSchema,
+  UpdateConfigFormSchema,
+} from '@/shared/schemas'
 import { api } from '@/shared/utils'
+import { InputSwitch } from '../../components/input-switch'
 
 type UpsertConfigProps = {
-  defaultValues: UpdateConfigDTO
-  configId: string
+  defaultValues?: CreateConfigDTO
+  configId?: string
 }
 
 export function ConfigsPage({ defaultValues, configId }: UpsertConfigProps) {
@@ -22,8 +26,8 @@ export function ConfigsPage({ defaultValues, configId }: UpsertConfigProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<UpdateConfigDTO>({
-    resolver: zodResolver(UpdateConfigSchema),
+  } = useForm<CreateConfigDTO>({
+    resolver: zodResolver(CreateConfigSchema),
     defaultValues,
   })
   const { push } = useRouter()
@@ -39,8 +43,21 @@ export function ConfigsPage({ defaultValues, configId }: UpsertConfigProps) {
     },
   })
 
-  function handleSubmitForm(data: UpdateConfigDTO) {
-    updateConfig({ ...data, id: configId })
+  const { mutate: createConfig } = api.config.create.useMutation({
+    onSuccess: () => {
+      utils.config.getByUser.invalidate()
+      push('/configs')
+    },
+    onError: err => {
+      console.log(err)
+    },
+  })
+
+  function handleSubmitForm(data: CreateConfigDTO) {
+    console.log(configId)
+    configId
+      ? updateConfig({ ...data, meiLimit: String(data.meiLimit), id: configId })
+      : createConfig({ ...data, meiLimit: String(data.meiLimit) })
   }
 
   return (
@@ -49,6 +66,18 @@ export function ConfigsPage({ defaultValues, configId }: UpsertConfigProps) {
         <InputCurrency
           label="Limite do MEI"
           name="meiLimit"
+          control={control}
+          errors={errors}
+        />
+        <InputSwitch
+          label="Receber notificações por e-mail"
+          name="notifyByEmail"
+          control={control}
+          errors={errors}
+        />
+        <InputSwitch
+          label="Receber notificações por SMS"
+          name="notifyBySms"
           control={control}
           errors={errors}
         />

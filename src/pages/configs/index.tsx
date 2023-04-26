@@ -19,13 +19,16 @@ export default function Configs() {
     return <p>carregando...</p>
   }
 
-  if (isError || !config) {
-    return <p>Erro</p>
-  }
-
-  const { userId: _, ...configWithoutUserId } = config
-
   return (
-    <ConfigsPage defaultValues={configWithoutUserId} configId={config.id} />
+    <ConfigsPage
+      defaultValues={
+        config && {
+          notifyByEmail: config.notifyByEmail,
+          notifyBySms: config.notifyBySms,
+          meiLimit: config.meiLimit,
+        }
+      }
+      configId={config?.id}
+    />
   )
 }

@@ -1,6 +1,8 @@
-import { GetConfigByUserIdSchema, UpdateConfigSchema } from '@/shared/schemas'
+import { CreateConfigSchema, UpdateConfigSchema } from '@/shared/schemas'
 import { createTRPCRouter, protectedProcedure } from '@/server/infra/trpc'
 import {
+  CreateConfigUseCaseContract,
+  CreateConfigUseCaseContractType,
   GetConfigByUserIdUseCaseContract,
   GetConfigByUserIdUseCaseContractType,
   UpdateConfigUseCaseContract,
@@ -19,6 +21,18 @@ export const configsRouter = createTRPCRouter({
     })
     return config
   }),
+  create: protectedProcedure
+    .input(CreateConfigSchema)
+    .mutation(async ({ input, ctx }) => {
+      const createConfigUseCase = container.get<CreateConfigUseCaseContract>(
+        CreateConfigUseCaseContractType,
+      )
+      const createdConfig = await createConfigUseCase.create({
+        ...input,
+        userId: ctx.session.user.id,
+      })
+      return createdConfig
+    }),
   update: protectedProcedure
     .input(UpdateConfigSchema)
     .mutation(async ({ input, ctx }) => {
