@@ -1,4 +1,5 @@
 export * from './button'
+export * from './dialog-modal'
 export * from './form'
 export * from './input'
 export * from './input-autocomplete'
