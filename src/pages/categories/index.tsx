@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 
 import { pageAtom, searchAtom } from '@/client/application/atoms'
-import { Navbar, Table } from '@/client/application/components'
+import { DataHandler, Navbar, Table } from '@/client/application/components'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { api } from '@/shared/utils'
 import Router from 'next/router'
@@ -58,40 +58,48 @@ export default function ListCategories() {
   }
 
   return (
-    <Navbar>
-      <Table
-        actions={{
-          createButton: {
-            action: handleNavigateToAddPage,
-            label: 'Adicionar categoria',
-          },
-          tableRowActions: [
+    <DataHandler isLoading={isLoading} isError={isError}>
+      <Navbar>
+        <Table
+          actions={{
+            createButton: {
+              action: handleNavigateToAddPage,
+              label: 'Adicionar categoria',
+            },
+            tableRowActions: [
+              {
+                action: handleToggleArchivedCategory,
+                icon: FiEyeOff,
+                renderConditionally: {
+                  column: 'archived',
+                  valueToRender: true,
+                },
+              },
+              {
+                action: handleToggleArchivedCategory,
+                icon: FiEye,
+                renderConditionally: {
+                  column: 'archived',
+                  valueToRender: false,
+                },
+              },
+              { action: handleNavigateToEditPage, icon: FiEdit2 },
+              { action: handleDeleteItem, icon: FiTrash },
+            ],
+          }}
+          header={[
             {
-              action: handleToggleArchivedCategory,
-              icon: FiEyeOff,
-              renderConditionally: { column: 'archived', valueToRender: true },
+              columnLabel: 'Nome',
+              columnName: 'name',
             },
             {
-              action: handleToggleArchivedCategory,
-              icon: FiEye,
-              renderConditionally: { column: 'archived', valueToRender: false },
+              columnLabel: 'Descriçāo',
+              columnName: 'description',
             },
-            { action: handleNavigateToEditPage, icon: FiEdit2 },
-            { action: handleDeleteItem, icon: FiTrash },
-          ],
-        }}
-        header={[
-          {
-            columnLabel: 'Nome',
-            columnName: 'name',
-          },
-          {
-            columnLabel: 'Descriçāo',
-            columnName: 'description',
-          },
-        ]}
-        data={data}
-      />
-    </Navbar>
+          ]}
+          data={data}
+        />
+      </Navbar>
+    </DataHandler>
   )
 }

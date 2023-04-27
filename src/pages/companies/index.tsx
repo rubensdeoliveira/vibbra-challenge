@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 
 import { pageAtom, searchAtom } from '@/client/application/atoms'
-import { Navbar, Table } from '@/client/application/components'
+import { DataHandler, Navbar, Table } from '@/client/application/components'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { api } from '@/shared/utils'
 import Router from 'next/router'
@@ -18,7 +18,7 @@ export default function ListCompanies() {
   const [search] = useAtom(searchAtom)
   const utils = api.useContext()
 
-  const { data } = api.company.list.useQuery({
+  const { data, isLoading, isError } = api.company.list.useQuery({
     page,
     search,
   })
@@ -44,34 +44,36 @@ export default function ListCompanies() {
   }
 
   return (
-    <Navbar>
-      <Table
-        actions={{
-          createButton: {
-            action: handleNavigateToAddPage,
-            label: 'Adicionar empresa',
-          },
-          tableRowActions: [
-            { action: handleNavigateToEditPage, icon: FiEdit2 },
-            { action: handleDeleteItem, icon: FiTrash },
-          ],
-        }}
-        header={[
-          {
-            columnLabel: 'Nome',
-            columnName: 'name',
-          },
-          {
-            columnLabel: 'Razāo Social',
-            columnName: 'corporateName',
-          },
-          {
-            columnLabel: 'CNPJ',
-            columnName: 'cnpj',
-          },
-        ]}
-        data={data}
-      />
-    </Navbar>
+    <DataHandler isLoading={isLoading} isError={isError}>
+      <Navbar>
+        <Table
+          actions={{
+            createButton: {
+              action: handleNavigateToAddPage,
+              label: 'Adicionar empresa',
+            },
+            tableRowActions: [
+              { action: handleNavigateToEditPage, icon: FiEdit2 },
+              { action: handleDeleteItem, icon: FiTrash },
+            ],
+          }}
+          header={[
+            {
+              columnLabel: 'Nome',
+              columnName: 'name',
+            },
+            {
+              columnLabel: 'Razāo Social',
+              columnName: 'corporateName',
+            },
+            {
+              columnLabel: 'CNPJ',
+              columnName: 'cnpj',
+            },
+          ]}
+          data={data}
+        />
+      </Navbar>
+    </DataHandler>
   )
 }

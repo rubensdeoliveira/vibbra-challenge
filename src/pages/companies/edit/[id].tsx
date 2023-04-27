@@ -1,3 +1,4 @@
+import { DataHandler } from '@/client/application/components'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { UpsertCompany } from '@/client/application/pages'
 import { api } from '@/shared/utils'
@@ -21,13 +22,9 @@ export default function EditCompany() {
     id: companyId,
   })
 
-  if (isLoading) {
-    return <p>carregando...</p>
-  }
-
-  if (isError || !company) {
-    return <p>Erro</p>
-  }
-
-  return <UpsertCompany defaultValues={company} companyId={companyId} />
+  return (
+    <DataHandler isLoading={isLoading} isError={isError}>
+      <UpsertCompany defaultValues={company} companyId={companyId} />
+    </DataHandler>
+  )
 }

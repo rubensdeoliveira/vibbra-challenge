@@ -1,5 +1,4 @@
 import { withSSRGuest } from '@/client/application/helpers'
-import { api } from '@/shared/utils'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 

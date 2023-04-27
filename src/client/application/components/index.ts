@@ -1,4 +1,5 @@
 export * from './button'
+export * from './data-handler'
 export * from './dialog-modal'
 export * from './form'
 export * from './input'

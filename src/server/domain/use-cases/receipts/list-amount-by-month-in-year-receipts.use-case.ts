@@ -19,7 +19,6 @@ export class ListAmountByMonthInYearReceiptsUseCase
     year,
     userId,
   }: ListAmountByMonthInYearReceiptsUseCaseContract.Input): Promise<ListAmountByMonthInYearReceiptsUseCaseContract.Output> {
-    console.log(year, userId)
     const totalReceiptsByYear = await this.receiptsRepository.listByYear({
       year,
       userId,

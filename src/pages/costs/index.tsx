@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 
 import { pageAtom, searchAtom } from '@/client/application/atoms'
-import { Navbar, Table } from '@/client/application/components'
+import { DataHandler, Navbar, Table } from '@/client/application/components'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { api } from '@/shared/utils'
 import Router from 'next/router'
@@ -18,7 +18,7 @@ export default function ListCosts() {
   const [search] = useAtom(searchAtom)
   const utils = api.useContext()
 
-  const { data } = api.cost.list.useQuery({
+  const { data, isLoading, isError } = api.cost.list.useQuery({
     page,
     search,
   })
@@ -44,26 +44,28 @@ export default function ListCosts() {
   }
 
   return (
-    <Navbar>
-      <Table
-        actions={{
-          createButton: {
-            action: handleNavigateToAddPage,
-            label: 'Lançar despesa',
-          },
-          tableRowActions: [
-            { action: handleNavigateToEditPage, icon: FiEdit2 },
-            { action: handleDeleteItem, icon: FiTrash },
-          ],
-        }}
-        header={[
-          {
-            columnLabel: 'Nome',
-            columnName: 'name',
-          },
-        ]}
-        data={data}
-      />
-    </Navbar>
+    <DataHandler isLoading={isLoading} isError={isError}>
+      <Navbar>
+        <Table
+          actions={{
+            createButton: {
+              action: handleNavigateToAddPage,
+              label: 'Lançar despesa',
+            },
+            tableRowActions: [
+              { action: handleNavigateToEditPage, icon: FiEdit2 },
+              { action: handleDeleteItem, icon: FiTrash },
+            ],
+          }}
+          header={[
+            {
+              columnLabel: 'Nome',
+              columnName: 'name',
+            },
+          ]}
+          data={data}
+        />
+      </Navbar>
+    </DataHandler>
   )
 }

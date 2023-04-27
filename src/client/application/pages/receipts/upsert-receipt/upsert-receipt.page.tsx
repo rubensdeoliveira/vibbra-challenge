@@ -13,8 +13,6 @@ import {
 } from '@/client/application/components'
 import { CreateReceiptFormDTO, CreateReceiptFormSchema } from '@/shared/schemas'
 import { api } from '@/shared/utils'
-import { z } from 'zod'
-import { convertCurrency } from '@/client/application/helpers'
 
 type UpsertReceiptProps = {
   defaultValues?: CreateReceiptFormDTO

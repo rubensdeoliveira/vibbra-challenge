@@ -1,15 +1,21 @@
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
+import Router from 'next/router'
 import { FaCaretDown } from 'react-icons/fa'
 
 export function Header() {
   const { data } = useSession()
 
+  async function handleSignOut() {
+    await signOut()
+    Router.push('/')
+  }
+
   return (
     <header className="m-[0_auto] flex w-full max-w-[1465px] items-center justify-between px-[3.125rem] py-8">
       <h1 className="text-[1.875rem] font-semibold">Dashboard</h1>
 
-      <div className="dropdown-end dropdown dropdown-hover">
+      <div className="dropdown-end dropdown-hover dropdown">
         <label tabIndex={0} className="flex cursor-pointer items-center gap-4">
           {data?.user.image ? (
             <Image
@@ -34,7 +40,7 @@ export function Header() {
           className="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow"
         >
           <li>
-            <button onClick={() => signOut()}>Sair</button>
+            <button onClick={handleSignOut}>Sair</button>
           </li>
         </ul>
       </div>

@@ -16,6 +16,7 @@ import { Bar, Line } from 'react-chartjs-2'
 import { InputSelect, Navbar } from '@/client/application/components'
 import { faker } from '@faker-js/faker'
 import { api } from '@/shared/utils'
+import { withSSRAuthenticated } from '@/client/application/helpers'
 
 ChartJS.register(
   CategoryScale,
@@ -106,53 +107,82 @@ export const costsChartOptions = {
   },
 }
 
+export const getServerSideProps = withSSRAuthenticated(async () => {
+  return {
+    props: {},
+  }
+})
+
 export default function Dashboard() {
-  const [selectedYear, setSelectedYear] = useState<string>(
-    new Date().getFullYear().toString(),
-  )
+  const [selectedYearForReceiptChart, setSelectedYearForReceiptChart] =
+    useState<string>(new Date().getFullYear().toString())
+  const [selectedYearForReceiptMeiChart, setSelectedYearForReceiptMeiChart] =
+    useState<string>(new Date().getFullYear().toString())
+  const [selectedYearForCostChart, setSelectedYearForCostChart] =
+    useState<string>(new Date().getFullYear().toString())
 
   const { data: amountByMonthReceipt } =
     api.receipt.listAmountByMonthInYear.useQuery({
-      year: selectedYear,
+      year: selectedYearForReceiptChart,
     })
 
-  const { data: amountByMonthReceiptCost } =
-    api.cost.listAmountByMonthInYear.useQuery({
-      year: selectedYear,
+  const { data: amountByMonthReceiptForMeiChart } =
+    api.receipt.listAmountByMonthInYear.useQuery({
+      year: selectedYearForReceiptMeiChart,
     })
+
+  const { data: amountByMonthCost } = api.cost.listAmountByMonthInYear.useQuery(
+    {
+      year: selectedYearForCostChart,
+    },
+  )
 
   const { data: config } = api.config.getByUser.useQuery()
 
   return (
     <Navbar>
       <div className="flex w-full flex-col items-center gap-[3.125rem]">
-        <InputSelect
-          options={Array.from({ length: 201 }, (_, i) => (i + 1900).toString())}
-          onChange={e => setSelectedYear(e.target.value)}
-          value={selectedYear}
-          className="max-w-[800px]"
-        />
-        <div className="flex w-full max-w-[800px] rounded-[14px] bg-gray-800 p-8">
+        <div className="flex w-full max-w-[800px] flex-col gap-6 rounded-[14px] bg-gray-800 p-8">
+          <InputSelect
+            options={Array.from({ length: 201 }, (_, i) =>
+              (i + 1900).toString(),
+            )}
+            onChange={e => setSelectedYearForReceiptMeiChart(e.target.value)}
+            value={selectedYearForReceiptMeiChart}
+            className="max-w-[300px]"
+          />
           <Bar
             options={meiLimitoptions}
             data={{
-              labels: amountByMonthReceipt?.map(item => item.month),
+              labels: amountByMonthReceiptForMeiChart?.map(item => item.month),
               datasets: [
                 {
                   label: 'Valor em NFe Gerado',
-                  data: amountByMonthReceipt?.map(item => item.value),
+                  data: amountByMonthReceiptForMeiChart?.map(
+                    item => item.value,
+                  ),
                   backgroundColor: '#13B497',
                 },
                 {
                   label: 'Limite do MEI',
-                  data: amountByMonthReceipt?.map(() => config?.meiLimit ?? 0),
+                  data: amountByMonthReceiptForMeiChart?.map(
+                    () => config?.meiLimit ?? 0,
+                  ),
                   backgroundColor: '#D9B75F',
                 },
               ],
             }}
           />
         </div>
-        <div className="flex w-full max-w-[800px] rounded-[14px] bg-gray-800 p-8">
+        <div className="flex w-full max-w-[800px] flex-col gap-6 rounded-[14px] bg-gray-800 p-8">
+          <InputSelect
+            options={Array.from({ length: 201 }, (_, i) =>
+              (i + 1900).toString(),
+            )}
+            onChange={e => setSelectedYearForReceiptChart(e.target.value)}
+            value={selectedYearForReceiptChart}
+            className="max-w-[300px]"
+          />
           <Line
             options={receiptsChartOptions}
             data={{
@@ -168,15 +198,23 @@ export default function Dashboard() {
             }}
           />
         </div>
-        <div className="flex w-full max-w-[800px] rounded-[14px] bg-gray-800 p-8">
+        <div className="flex w-full max-w-[800px] flex-col gap-6 rounded-[14px] bg-gray-800 p-8">
+          <InputSelect
+            options={Array.from({ length: 201 }, (_, i) =>
+              (i + 1900).toString(),
+            )}
+            onChange={e => setSelectedYearForCostChart(e.target.value)}
+            value={selectedYearForCostChart}
+            className="max-w-[300px]"
+          />
           <Line
             options={costsChartOptions}
             data={{
-              labels: amountByMonthReceiptCost?.map(item => item.month),
+              labels: amountByMonthCost?.map(item => item.month),
               datasets: [
                 {
-                  label: 'Notas Fiscais Geradas',
-                  data: amountByMonthReceiptCost?.map(item => item.value),
+                  label: 'Despesas',
+                  data: amountByMonthCost?.map(item => item.value),
                   borderColor: '#13B497',
                   backgroundColor: '#13B497',
                 },

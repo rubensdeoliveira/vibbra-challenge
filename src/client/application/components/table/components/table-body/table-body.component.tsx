@@ -20,11 +20,6 @@ export function TableBody({ data, header, actions }: TableBodyProps) {
               : ''
           }`}
         >
-          <Td className="w-[80px] pl-8">
-            <label>
-              <input type="checkbox" className="checkbox" />
-            </label>
-          </Td>
           {header.map(headerItem => (
             <Td key={headerItem.columnName} className="min-w-[200px]">
               {dataItem[headerItem.columnName]}

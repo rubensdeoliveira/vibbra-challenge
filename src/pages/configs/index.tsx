@@ -1,3 +1,4 @@
+import { DataHandler } from '@/client/application/components'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { ConfigsPage } from '@/client/application/pages'
 import { api } from '@/shared/utils'
@@ -9,22 +10,20 @@ export const getServerSideProps = withSSRAuthenticated(async () => {
 })
 
 export default function Configs() {
-  const { data: config, isLoading } = api.config.getByUser.useQuery()
-
-  if (isLoading) {
-    return <p>carregando...</p>
-  }
+  const { data: config, isLoading, isError } = api.config.getByUser.useQuery()
 
   return (
-    <ConfigsPage
-      defaultValues={
-        config && {
-          notifyByEmail: config.notifyByEmail,
-          notifyBySms: config.notifyBySms,
-          meiLimit: String(config.meiLimit),
+    <DataHandler isLoading={isLoading} isError={isError}>
+      <ConfigsPage
+        defaultValues={
+          config && {
+            notifyByEmail: config.notifyByEmail,
+            notifyBySms: config.notifyBySms,
+            meiLimit: String(config.meiLimit),
+          }
         }
-      }
-      configId={config?.id}
-    />
+        configId={config?.id}
+      />
+    </DataHandler>
   )
 }

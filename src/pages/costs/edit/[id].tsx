@@ -1,3 +1,4 @@
+import { DataHandler } from '@/client/application/components/data-handler'
 import { withSSRAuthenticated } from '@/client/application/helpers'
 import { UpsertCost } from '@/client/application/pages'
 import { api } from '@/shared/utils'
@@ -21,29 +22,25 @@ export default function EditCost() {
     id: costId,
   })
 
-  if (isLoading) {
-    return <p>carregando...</p>
-  }
-
-  if (isError || !cost) {
-    return <p>Erro</p>
-  }
-
   return (
-    <UpsertCost
-      defaultValues={{
-        ...cost,
-        companyId: {
-          value: cost?.company?.id ?? '',
-          label: cost.company?.name ?? '',
-        },
-        categoryId: {
-          value: cost.category.id,
-          label: cost.category.name,
-        },
-        value: String(cost.value),
-      }}
-      costId={costId}
-    />
+    <DataHandler isLoading={isLoading} isError={isError}>
+      {cost && (
+        <UpsertCost
+          defaultValues={{
+            ...cost,
+            companyId: {
+              value: cost?.company?.id ?? '',
+              label: cost.company?.name ?? '',
+            },
+            categoryId: {
+              value: cost.category.id,
+              label: cost.category.name,
+            },
+            value: String(cost.value),
+          }}
+          costId={costId}
+        />
+      )}
+    </DataHandler>
   )
 }

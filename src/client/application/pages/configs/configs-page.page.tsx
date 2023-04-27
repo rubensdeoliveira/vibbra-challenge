@@ -52,7 +52,6 @@ export function ConfigsPage({ defaultValues, configId }: UpsertConfigProps) {
   })
 
   function handleSubmitForm(data: CreateConfigFormDTO) {
-    console.log(configId)
     configId
       ? updateConfig({ ...data, meiLimit: String(data.meiLimit), id: configId })
       : createConfig({ ...data, meiLimit: String(data.meiLimit) })
